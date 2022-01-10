@@ -263,12 +263,9 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name) {
 }
 
 function status_effects_end_calc(mon) {
-  console.log(mon)
   i = mon.status_effects_end.length;
   while (i--) {
-    console.log(mon.status_effects_end[i])
     mon.status_effects_end[i].use(mon);
-    console.log(mon.status_effects_end[i].duration)
     if (mon.status_effects_end[i].duration == 0) {
       mon.status_effects_end.splice(i, 1);
     }
@@ -377,39 +374,39 @@ function update_rune_count() {
     monster2.arcane;
 }
 
-function get_runes(mon, n) {
+function get_runes(mon, n, p) {
+  /*var tmp = document.createElement("p");
+  if (turn) {
+    tmp.style.color = "green";
+  } else {
+    tmp.style.color = "blue";
+  }*/
   for (i = 0; i < n; i++) {
-    var tmp = document.createElement("p");
-    if (turn) {
-      tmp.style.color = "green";
-    } else {
-      tmp.style.color = "blue";
-    }
     switch (get_random_int(5)) {
       case 0:
         mon.fire++;
-        tmp.innerHTML = mon.name + " got a fire rune<br>";
+        p.innerHTML += mon.name + " got a fire rune<br>";
         break;
       case 1:
         mon.earth++;
-        tmp.innerHTML = mon.name + " got a earth rune<br>";
+        p.innerHTML += mon.name + " got a earth rune<br>";
         break;
       case 2:
         mon.air++;
-        tmp.innerHTML = mon.name + " got a air rune<br>";
+        p.innerHTML += mon.name + " got a air rune<br>";
         break;
       case 3:
         mon.water++;
-        tmp.innerHTML = mon.name + " got a water rune<br>";
+        p.innerHTML += mon.name + " got a water rune<br>";
         break;
       case 4:
         mon.arcane++;
-        tmp.innerHTML = mon.name + " got a arcane rune<br>";
+        p.innerHTML += mon.name + " got a arcane rune<br>";
         break;
       default:
         break;
     }
-    output.appendChild(tmp);
+    output.appendChild(p);
   }
   update_rune_count();
 }
@@ -433,4 +430,18 @@ function update_status_effect() {
   status_effect2.innerHTML = str2.substring(0, str2.length - 2);
 }
 
+function cull_output(){
+  //if(output.childNodes.length > 6){
+  //  output.removeChild(output.firstChild);
+  //}
+  for(i = 0; i < output.childNodes.length - 6; i++){
+    output.childNodes[i].style.display = "none";
+  }
+}
+
+function show_log(){
+  for(i = 0; i < output.childNodes.length; i++){
+    output.childNodes[i].style.display = "block";
+  }
+}
 //////////////////////////////////////////////ignore up to here

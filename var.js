@@ -249,7 +249,6 @@ magic_spells.set("FFF", function cast(attacker, defender) {
   min = 30;
   max = 50;
   acc = 80;
-  burn_acc = 100;
   if (get_acc_check(attacker.agi, defender.agi, acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -259,9 +258,6 @@ magic_spells.set("FFF", function cast(attacker, defender) {
       "Fireball"
     );
     defender.hp -= dmg;
-    if (get_acc_check(attacker.agi, defender.agi, burn_acc)) {
-      defender.status_effects_end.push(new Burn(3, 10));
-    }
   } else {
     spell_acc_dialogue(attacker);
   }
@@ -284,7 +280,7 @@ magic_spells.set("FFFF", function cast(attacker, defender) {
     defender.hp -= dmg;
     if (get_acc_check(0, 0, burn_chance)) {
       defender.status_effects.push(
-        new Burn("burn", burn_duration, burn_damage)
+        new Burn(burn_duration, burn_damage)
       );
     }
   } else {
@@ -309,7 +305,7 @@ magic_spells.set("FFFFF", function cast(attacker, defender) {
     defender.hp -= dmg;
     if (get_acc_check(0, 0, burn_chance)) {
       defender.status_effects.push(
-        new Burn("burn", burn_duration, burn_damage)
+        new Burn(burn_duration, burn_damage)
       );
     }
   } else {

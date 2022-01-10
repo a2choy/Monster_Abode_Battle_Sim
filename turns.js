@@ -32,10 +32,9 @@ function attack_helper(attacker, defender) {
       } else {
         tmp.style.color = "blue";
       }
-      tmp.innerHTML = attacker.name + " hits for " + dmg + " dmg";
-      output.appendChild(tmp);
+      tmp.innerHTML = attacker.name + " hits for " + dmg + " dmg<br>";
   
-      get_runes(attacker, rune_per_attack);
+      get_runes(attacker, rune_per_attack, tmp);
   
       defender.hp -= dmg;
       update_hp();
@@ -57,6 +56,7 @@ function attack_helper(attacker, defender) {
       attack_helper(monster2, monster1);
     }
     turn = !turn;
+    cull_output();
   }
   
   function magic_helper(attacker, defender, cur) {
@@ -81,9 +81,8 @@ function attack_helper(attacker, defender) {
     if (!magic_spells.has(str)) {
       var tmp = document.createElement("p");
       tmp.style.color = "red";
-      tmp.innerHTML = "Wrong combination... poof!";
-      output.appendChild(tmp);
-      get_runes(attacker, runes_per_poof);
+      tmp.innerHTML = "Wrong combination... poof!<br>";
+      get_runes(attacker, runes_per_poof, tmp);
       turn = !turn;
       return;
     }
@@ -107,6 +106,7 @@ function attack_helper(attacker, defender) {
     }
     update_hp();
     turn = !turn;
+    cull_output();
   }
   
   function pass_helper(mon) {
@@ -155,6 +155,7 @@ function attack_helper(attacker, defender) {
       pass_helper(monster2);
     }
     turn = !turn;
+    cull_output();
   }
   
   function force_helper(attacker, defender, runes) {
@@ -179,5 +180,6 @@ function attack_helper(attacker, defender) {
     }
     update_hp();
     turn = !turn;
+    cull_output();
   }
   
