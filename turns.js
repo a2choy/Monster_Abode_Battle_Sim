@@ -1,0 +1,183 @@
+function attack_helper(attacker, defender) {
+    //***************************************************************//
+    //acc = (attacker.agi - defender.agi) / 2; //accuracy formula
+    //***************************************************************//
+    //acc = base_acc + acc;
+    //acc = Math.round(acc);
+  
+    //acc_check = get_random_int(100) + 1; //check if hit //this might be wrong actually
+  
+    if (!get_acc_check(attacker.agi, defender.agi, 100)) {
+      var tmp = document.createElement("p");
+      if (turn) {
+        tmp.style.color = "green";
+      } else {
+        tmp.style.color = "blue";
+      }
+      tmp.innerHTML = attacker.name + " missed";
+      output.appendChild(tmp);
+    } else {
+      dmg = get_random_int(dmg_max - dmg_min + 1) + dmg_min;
+      def = get_random_int(def_max - def_min + 1) + def_min;
+  
+      //***************************************************************//
+      dmg = (attacker.pow / 100) * dmg - defender.def / 2; //the dmg formula you can change
+      //***************************************************************//
+  
+      dmg = Math.round(dmg);
+  
+      var tmp = document.createElement("p");
+      if (turn) {
+        tmp.style.color = "green";
+      } else {
+        tmp.style.color = "blue";
+      }
+      tmp.innerHTML = attacker.name + " hits for " + dmg + " dmg";
+      output.appendChild(tmp);
+  
+      get_runes(attacker, rune_per_attack);
+  
+      defender.hp -= dmg;
+      update_hp();
+      if (defender.hp <= 0) {
+        tmp = document.createElement("p");
+        tmp.style.color = "yellow";
+        tmp.innerHTML = attacker.name + " wins!";
+        output.appendChild(tmp);
+      }
+    }
+  
+    status_effects_end_calc(attacker);
+  }
+  
+  function attack() {
+    if (turn) {
+      attack_helper(monster1, monster2);
+    } else {
+      attack_helper(monster2, monster1);
+    }
+    turn = !turn;
+  }
+  
+  function magic_helper(attacker, defender, cur) {
+    if (cur.length < 3) {
+      var tmp = document.createElement("p");
+      tmp.style.color = "red";
+      tmp.innerHTML = "Must use at least 3 runes";
+      output.appendChild(tmp);
+      turn = !turn;
+      return;
+    }
+  
+    str = "";
+    for (i = 0; i < cur.length; i++) {
+      str += cur[i];
+    }
+    str = str
+      .split("")
+      .sort((a, b) => a.localeCompare(b))
+      .join("");
+  
+    if (!magic_spells.has(str)) {
+      var tmp = document.createElement("p");
+      tmp.style.color = "red";
+      tmp.innerHTML = "Wrong combination... poof!";
+      output.appendChild(tmp);
+      get_runes(attacker, runes_per_poof);
+      turn = !turn;
+      return;
+    }
+    magic_spells.get(str)(attacker, defender);
+  
+    len = cur.length;
+    for (i = 0; i < len; i++) {
+      cur.pop();
+    }
+  
+    update_runes();
+  
+    status_effects_end_calc(attacker);
+  }
+  
+  function magic() {
+    if (turn) {
+      magic_helper(monster1, monster2, curr_runes1);
+    } else {
+      magic_helper(monster2, monster1, curr_runes2);
+    }
+    update_hp();
+    turn = !turn;
+  }
+  
+  function pass_helper(mon) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    for (i = 1; i < rune_per_pass + 1; i++) {
+      switch (document.getElementById("rune_pass" + i).value) {
+        case "F":
+          mon.fire++;
+          tmp.innerHTML += mon.name + " got a fire rune<br>";
+          break;
+        case "E":
+          mon.earth++;
+          tmp.innerHTML += mon.name + " got a earth rune<br>";
+          break;
+        case "A":
+          mon.air++;
+          tmp.innerHTML += mon.name + " got a air rune<br>";
+          break;
+        case "W":
+          mon.water++;
+          tmp.innerHTML += mon.name + " got a water rune<br>";
+          break;
+        case "V":
+          mon.arcane++;
+          tmp.innerHTML += mon.name + " got a arcane rune<br>";
+          break;
+        default:
+          break;
+      }
+    }
+    output.appendChild(tmp);
+    update_rune_count();
+  
+    status_effects_end_calc(mon);
+  }
+  
+  function pass() {
+    if (turn) {
+      pass_helper(monster1);
+    } else {
+      pass_helper(monster2);
+    }
+    turn = !turn;
+  }
+  
+  function force_helper(attacker, defender, runes) {
+    magic_spells.get(runes)(attacker, defender);
+  
+    status_effects_end_calc(attacker);
+  }
+  
+  function force() {
+    if (turn) {
+      force_helper(
+        monster1,
+        monster2,
+        document.getElementById("all_runes").value
+      );
+    } else {
+      force_helper(
+        monster2,
+        monster1,
+        document.getElementById("all_runes").value
+      );
+    }
+    update_hp();
+    turn = !turn;
+  }
+  

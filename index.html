@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./var.js" defer></script>
+    <script src="./code.js" defer></script>
+    <script src="./turns.js" defer></script>
+    <title>Monster Abode Mock Battle Simulator</title>
+    <style>
+      body {
+        background-color: powderblue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <p style="display: inline-block">Monster Abode Mock Battle Simulator</p>
+    </header>
+    <div
+      style="display: grid; grid-template: auto auto auto; max-width: 1750px"
+    >
+      <div style="grid-column: 1">
+        <h1>Monster 1</h1>
+        <form>
+          <label for="pow1">Power:</label><br />
+          <input type="text" id="pow1" name="pow1" /><br />
+          <label for="def1">Defence:</label><br />
+          <input type="text" id="def1" name="def1" /><br />
+          <label for="mag1">Magic:</label><br />
+          <input type="text" id="mag1" name="mag1" /><br />
+          <label for="agi1">Agility:</label><br />
+          <input type="text" id="agi1" name="agi1" /><br />
+          <label for="spd1">Speed:</label><br />
+          <input type="text" id="spd1" name="spd1" /><br />
+          <label for="vit1">Vitality:</label><br />
+          <input type="text" id="vit1" name="vit1" /><br /><br />
+        </form>
+        <button onclick="update()">Update attributes</button>
+        <p id="rune1" style="">Fire: 0 Earth: 0 Air: 0 Water: 0 Arcane: 0</p>
+        <button class="rune_btn" id="fire_up1" style="margin-right: 12px">
+          ▲
+        </button>
+        <button class="rune_btn" id="earth_up1" style="margin-right: 12px">
+          ▲
+        </button>
+        <button class="rune_btn" id="air_up1" style="margin-right: 12px">
+          ▲
+        </button>
+        <button class="rune_btn" id="water_up1" style="margin-right: 12px">
+          ▲
+        </button>
+        <button class="rune_btn" id="arcane_up1" style="margin-right: 12px">
+          ▲
+        </button>
+        <br />
+        <button class="rune_btn" id="fire_down1" style="margin-right: 12px">
+          ▼
+        </button>
+        <button class="rune_btn" id="earth_down1" style="margin-right: 12px">
+          ▼
+        </button>
+        <button class="rune_btn" id="air_down1" style="margin-right: 12px">
+          ▼
+        </button>
+        <button class="rune_btn" id="water_down1" style="margin-right: 12px">
+          ▼
+        </button>
+        <button class="rune_btn" id="arcane_down1" style="margin-right: 12px">
+          ▼
+        </button>
+        <p id="rune_selected1"></p>
+        <h1 id="hp1">100/100</h1>
+        <p id="status_effect1"></p>
+        <br />
+      </div>
+      <div style="grid-column: 2">
+        <h1>Monster 2</h1>
+        <form>
+          <label for="pow2">Power:</label><br />
+          <input type="text" id="pow2" name="pow2" /><br />
+          <label for="def2">Defence:</label><br />
+          <input type="text" id="def2" name="def2" /><br />
+          <label for="mag2">Magic:</label><br />
+          <input type="text" id="mag2" name="mag2" /><br />
+          <label for="agi2">Agility:</label><br />
+          <input type="text" id="agi2" name="agi2" /><br />
+          <label for="spd2">Speed:</label><br />
+          <input type="text" id="spd2" name="spd2" /><br />
+          <label for="vit2">Vitality:</label><br />
+          <input type="text" id="vit2" name="vit2" /><br /><br />
+        </form>
+        <br />
+        <p id="rune2">Fire: 0 Earth: 0 Air: 0 Water: 0 Arcane: 0</p>
+        <button class="rune_btn" id="fire_up2" style="margin-right: 12px">
+          ▲
+        </button>
+        <button class="rune_btn" id="earth_up2" style="margin-right: 12px">
+          ▲
+        </button>
+        <button class="rune_btn" id="air_up2" style="margin-right: 12px">
+          ▲
+        </button>
+        <button class="rune_btn" id="water_up2" style="margin-right: 12px">
+          ▲
+        </button>
+        <button class="rune_btn" id="arcane_up2" style="margin-right: 12px">
+          ▲
+        </button>
+        <br />
+        <button class="rune_btn" id="fire_down2" style="margin-right: 12px">
+          ▼
+        </button>
+        <button class="rune_btn" id="earth_down2" style="margin-right: 12px">
+          ▼
+        </button>
+        <button class="rune_btn" id="air_down2" style="margin-right: 12px">
+          ▼
+        </button>
+        <button class="rune_btn" id="water_down2" style="margin-right: 12px">
+          ▼
+        </button>
+        <button class="rune_btn" id="arcane_down2" style="margin-right: 12px">
+          ▼
+        </button>
+        <p id="rune_selected2"></p>
+        <h1 id="hp2">100/100</h1>
+        <p id="status_effect2"></p>
+      </div>
+      <div style="grid-column: 3">
+        <div>
+          <button style="display: inline-block" onclick="attack()">
+            Attack
+          </button>
+          <button style="display: inline-block" onclick="magic()">Magic</button>
+          <button style="display: inline-block" onclick="pass()">Pass</button>
+          <div style="display: inline-block" id="rune_pass"></div>
+          <button style="display: inline-block" onclick="force()">Force</button>
+          <div style="display: inline-block" id="force_spell"></div>
+        </div>
+        <div id="output"></div>
+      </div>
+    </div>
+  </body>
+</html>
