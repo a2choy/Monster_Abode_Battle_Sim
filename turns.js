@@ -6,8 +6,11 @@ function attack_helper(attacker, defender) {
     //acc = Math.round(acc);
   
     //acc_check = get_random_int(100) + 1; //check if hit //this might be wrong actually
-  
-    if (!get_acc_check(attacker.agi, defender.agi, 100)) {
+    values = status_effects_start_calc(attacker, defender)
+    
+    acc_bool = false; //for lucky testing tbd
+    
+    if (!get_acc_check(values.get("agi1"), values.get("agi2"), base_acc)) {
       var tmp = document.createElement("p");
       if (turn) {
         tmp.style.color = "green";
@@ -17,14 +20,16 @@ function attack_helper(attacker, defender) {
       tmp.innerHTML = attacker.name + " missed";
       output.appendChild(tmp);
     } else {
-      dmg = get_random_int(dmg_max - dmg_min + 1) + dmg_min;
-      def = get_random_int(def_max - def_min + 1) + def_min;
+      /*dmg = get_random_int(dmg_max - dmg_min + 1) + dmg_min;
+      def = get_random_int(def_max - def_min + 1) + def_min;*/
   
       //***************************************************************//
-      dmg = (attacker.pow / 100) * dmg - defender.def / 2; //the dmg formula you can change
+      //dmg = (attacker.pow / 100) * dmg - defender.def / 2; //the dmg formula you can change
       //***************************************************************//
   
-      dmg = Math.round(dmg);
+      //dmg = Math.round(dmg);
+
+      dmg = Math.round(get_random_range(dmg_min,dmg_max) * values.get("pow1") / values.get("def1"));
   
       var tmp = document.createElement("p");
       if (turn) {
@@ -32,11 +37,15 @@ function attack_helper(attacker, defender) {
       } else {
         tmp.style.color = "blue";
       }
-      tmp.innerHTML = attacker.name + " hits for " + dmg + " dmg<br>";
-  
+      tmp_text = attacker.name + " hits for " + dmg + " dmg<br>";
+      clone_dmg = Math.round(dmg * (0.4 * values.get("clone1")));
+      if(values.get("clone1") > 0){
+        tmp_text += values.get("clone1") + " clone(s) hit for " + clone_dmg + " dmg<br>";
+      }
+      tmp.innerHTML = tmp_text;
       get_runes(attacker, rune_per_attack, tmp);
   
-      defender.hp -= dmg;
+      defender.hp -= (dmg + clone_dmg);
       update_hp();
       if (defender.hp <= 0) {
         tmp = document.createElement("p");
@@ -60,6 +69,8 @@ function attack_helper(attacker, defender) {
   }
   
   function magic_helper(attacker, defender, cur) {
+    values = status_effects_start_calc(attacker, defender)
+
     if (cur.length < 3) {
       var tmp = document.createElement("p");
       tmp.style.color = "red";
@@ -86,7 +97,7 @@ function attack_helper(attacker, defender) {
       turn = !turn;
       return;
     }
-    magic_spells.get(str)(attacker, defender);
+    magic_spells.get(str)(attacker, defender, values);
   
     len = cur.length;
     for (i = 0; i < len; i++) {

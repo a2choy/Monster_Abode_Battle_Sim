@@ -330,36 +330,38 @@ class Hydrosurge extends Status_Effect {
 //F=fire, E=earth, A=air, W=water, V=arcane
 //list of spells and what they do
 magic_spells = new Map();
-magic_spells.set("FFF", function cast(attacker, defender) {
+magic_spells.set("FFF", function cast(attacker, defender, values) {
   min = 9;
   max = 15;
   acc = 80;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "F",
-      "Fireball"
+      "Fireball",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("FFFF", function cast(attacker, defender) {
+magic_spells.set("FFFF", function cast(attacker, defender, values) {
   min = 12;
   max = 22;
   acc = 80;
   burn_chance = 20;
   burn_duration = 3;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "F",
-      "Fireblast"
+      "Fireblast",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, burn_chance)) {
@@ -371,25 +373,28 @@ magic_spells.set("FFFF", function cast(attacker, defender) {
           1
         );
       }
-      defender.status_effects_end.push(new Burn(burn_duration, Math.round(dmg * 0.1)));
+      defender.status_effects_end.push(
+        new Burn(burn_duration, Math.round(dmg * 0.1))
+      );
     }
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("FFFFF", function cast(attacker, defender) {
+magic_spells.set("FFFFF", function cast(attacker, defender, values) {
   min = 16;
   max = 27;
   acc = 85;
   burn_chance = 60;
   burn_duration = 3;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "F",
-      "Firestorm"
+      "Firestorm",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, burn_chance)) {
@@ -401,110 +406,118 @@ magic_spells.set("FFFFF", function cast(attacker, defender) {
           1
         );
       }
-      defender.status_effects_end.push(new Burn(burn_duration, Math.round(dmg * 0.1)));
+      defender.status_effects_end.push(
+        new Burn(burn_duration, Math.round(dmg * 0.1))
+      );
     }
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("WWW", function cast(attacker, defender) {
+magic_spells.set("WWW", function cast(attacker, defender, values) {
   min = 6;
   max = 12;
   acc = 90;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "W",
-      "Waterball"
+      "Waterball",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("WWWW", function cast(attacker, defender) {
+magic_spells.set("WWWW", function cast(attacker, defender, values) {
   min = 11;
   max = 25;
   acc = 80;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "W",
-      "Waterwhip"
+      "Waterwhip",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("WWWWW", function cast(attacker, defender) {
+magic_spells.set("WWWWW", function cast(attacker, defender, values) {
   min = 14;
   max = 29;
   acc = 95;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "W",
-      "Waterburst"
+      "Waterburst",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("AAA", function cast(attacker, defender) {
+magic_spells.set("AAA", function cast(attacker, defender, values) {
   min = 4;
   max = 12;
   acc = 999;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "A",
-      "Airshot"
+      "Airshot",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("AAAA", function cast(attacker, defender) {
+magic_spells.set("AAAA", function cast(attacker, defender, values) {
   min = 4;
   max = 18;
   acc = 999;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "A",
-      "Airstinger"
+      "Airstinger",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("AAAAA", function cast(attacker, defender) {
+magic_spells.set("AAAAA", function cast(attacker, defender, values) {
   min = 2;
   max = 4;
   acc = 999;
   multi_hit = 5;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     for (i = 0; i < multi_hit; i++) {
       dmg = magic_damage_calc(
         attacker,
         defender,
         get_random_range(min, max),
         "A",
-        "Tornade"
+        "Tornade",
+        values
       );
       defender.hp -= dmg;
     }
@@ -512,36 +525,38 @@ magic_spells.set("AAAAA", function cast(attacker, defender) {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("EEE", function cast(attacker, defender) {
+magic_spells.set("EEE", function cast(attacker, defender, values) {
   min = 18;
   max = 18;
   acc = 75;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "E",
-      "Stone Strike"
+      "Stone Strike",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("EEEE", function cast(attacker, defender) {
+magic_spells.set("EEEE", function cast(attacker, defender, values) {
   min = 25;
   max = 25;
   acc = 65;
   slow_chance = 20;
   slow_duration = 2;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "E",
-      "Stone Edge"
+      "Stone Edge",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, slow_chance)) {
@@ -551,19 +566,20 @@ magic_spells.set("EEEE", function cast(attacker, defender) {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("EEEEE", function cast(attacker, defender) {
+magic_spells.set("EEEEE", function cast(attacker, defender, values) {
   min = 50;
   max = 50;
   acc = 55;
   stun_chance = 50;
   stun_duration = 1;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "E",
-      "Stone Assault"
+      "Stone Assault",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, stun_chance)) {
@@ -573,19 +589,20 @@ magic_spells.set("EEEEE", function cast(attacker, defender) {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("EEEFF", function cast(attacker, defender) {
+magic_spells.set("EEEFF", function cast(attacker, defender, values) {
   min = 22;
   max = 22;
   acc = 70;
   burn_chance = 30;
   burn_duration = 3;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "E",
-      "Eruption"
+      "Eruption",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, burn_chance)) {
@@ -597,30 +614,33 @@ magic_spells.set("EEEFF", function cast(attacker, defender) {
           1
         );
       }
-      defender.status_effects_end.push(new Burn(burn_duration, Math.round(dmg * 0.1)));
+      defender.status_effects_end.push(
+        new Burn(burn_duration, Math.round(dmg * 0.1))
+      );
     }
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("FFVVV", function cast(attacker, defender) {
+magic_spells.set("FFVVV", function cast(attacker, defender, values) {
   min = 15;
   max = 22;
   acc = 90;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min + attacker.stress, max + attacker.stress),
       "V",
-      "Cartharsis"
+      "Cartharsis",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("EEEFW", function cast(attacker, defender) {
+magic_spells.set("EEEFW", function cast(attacker, defender, values) {
   min = 17;
   max = 17;
   acc1 = 95;
@@ -629,13 +649,14 @@ magic_spells.set("EEEFW", function cast(attacker, defender) {
   stun_duration = 1;
   slow_chance = 50;
   slow_duration = 2;
-  if (get_acc_check(attacker.agi, defender.agi, acc1)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc1)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "E",
-      "Fault Line"
+      "Fault Line",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, slow_chance)) {
@@ -644,13 +665,14 @@ magic_spells.set("EEEFW", function cast(attacker, defender) {
   } else {
     spell_acc_dialogue(attacker);
   }
-  if (get_acc_check(attacker.agi, defender.agi, acc2)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc2)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "E",
-      "Fault Line"
+      "Fault Line",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, stun_chance)) {
@@ -660,37 +682,39 @@ magic_spells.set("EEEFW", function cast(attacker, defender) {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("FVVVV", function cast(attacker, defender) {
+magic_spells.set("FVVVV", function cast(attacker, defender, values) {
   min = 66;
   max = 66;
   acc = 999;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "V",
-      "Eldritch Blast"
+      "Eldritch Blast",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("AEE", function cast(attacker, defender) {
+magic_spells.set("AEE", function cast(attacker, defender, values) {
   min = 4;
   max = 8;
   acc = 70;
-  multiplier = attacker.unpurgeable_effects_start.filter(
-    (e) => e.name === "rollout"
-  ).length + 1;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  multiplier =
+    attacker.unpurgeable_effects_start.filter((e) => e.name === "rollout")
+      .length + 1;
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min * multiplier, max * multiplier),
       "E",
-      "Rollout"
+      "Rollout",
+      values
     );
     defender.hp -= dmg;
   } else {
@@ -698,17 +722,18 @@ magic_spells.set("AEE", function cast(attacker, defender) {
   }
   attacker.unpurgeable_effects_start.push(new Rollout(5));
 });
-magic_spells.set("AFFV", function cast(attacker, defender) {
+magic_spells.set("AFFV", function cast(attacker, defender, values) {
   min = 26;
   max = 36;
   acc = 90;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "F",
-      "Reckless Inferno"
+      "Reckless Inferno",
+      values
     );
     defender.hp -= dmg;
   } else {
@@ -753,19 +778,20 @@ magic_spells.set("AFFV", function cast(attacker, defender) {
       break;
   }
 });
-magic_spells.set("AWW", function cast(attacker, defender) {
+magic_spells.set("AWW", function cast(attacker, defender, values) {
   min = 6;
   max = 9;
   acc = 100;
   freeze_chance = 30;
   freeze_duration = 1;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "W",
-      "Chill"
+      "Chill",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, freeze_chance)) {
@@ -775,30 +801,32 @@ magic_spells.set("AWW", function cast(attacker, defender) {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("AAWWW", function cast(attacker, defender) {
+magic_spells.set("AAWWW", function cast(attacker, defender, values) {
   freeze_duration = 1;
   magic_damage_calc(
     attacker,
     defender,
     get_random_range(0, 0),
     "W",
-    "Deep Chill"
+    "Deep Chill",
+    values
   );
   defender.status_effects_start.push(new Freeze_Stun(freeze_duration));
 });
-magic_spells.set("FFW", function cast(attacker, defender) {
+magic_spells.set("FFW", function cast(attacker, defender, values) {
   min = 5;
   max = 10;
   acc = 85;
   blind_chance = 30;
   blind_duration = 3;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "W",
-      "Steam"
+      "Steam",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, blind_chance)) {
@@ -808,31 +836,33 @@ magic_spells.set("FFW", function cast(attacker, defender) {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("AAV", function cast(attacker, defender) {
+magic_spells.set("AAV", function cast(attacker, defender, values) {
   blind_duration = 3;
   magic_damage_calc(
     attacker,
     defender,
     get_random_range(0, 0),
     "A",
-    "Shadow Stream"
+    "Shadow Stream",
+    values
   );
   defender.status_effects_stat.push(new Blind(blind_duration));
 });
-magic_spells.set("AAAEE", function cast(attacker, defender) {
+magic_spells.set("AAAEE", function cast(attacker, defender, values) {
   min = 10;
   max = 20;
   acc = 60;
   slow_chance = 100;
   slow_duration = 3;
   defender.status_effects_stat.push(new Slow(slow_duration));
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "A",
-      "Sandstorm"
+      "Sandstorm",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, slow_chance)) {
@@ -842,7 +872,7 @@ magic_spells.set("AAAEE", function cast(attacker, defender) {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("FFFV", function cast(attacker, defender) {
+magic_spells.set("FFFV", function cast(attacker, defender, values) {
   acc = 85;
   if (get_acc_check(0, 0, acc)) {
     if (
@@ -857,26 +887,28 @@ magic_spells.set("FFFV", function cast(attacker, defender) {
     defender,
     get_random_range(0, 0),
     "F",
-    "Ghostly Embers"
+    "Ghostly Embers",
+    values
   );
 });
-magic_spells.set("EFFV", function cast(attacker, defender) {
+magic_spells.set("EFFV", function cast(attacker, defender, values) {
   dmg = 20;
   acc = 100;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(0, 0),
       "V",
-      "Guard Crush"
+      "Guard Crush",
+      values
     );
     defender.status_effects.push(new Guard_Crush(1, dmg));
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("AAAV", function cast(attacker, defender) {
+magic_spells.set("AAAV", function cast(attacker, defender, values) {
   switch (get_random_int(4)) {
     case 0:
       attacker.status_effects_start.push(new Lucky(3));
@@ -893,26 +925,27 @@ magic_spells.set("AAAV", function cast(attacker, defender) {
     default:
       break;
   }
-  magic_damage_calc(attacker, defender, 0, "V", "Gamble");
+  magic_damage_calc(attacker, defender, 0, "V", "Gamble", values);
 });
-magic_spells.set("AVVVV", function cast(attacker, defender) {
+magic_spells.set("AVVVV", function cast(attacker, defender, values) {
   attacker.status_effects_start.push(new Lucky(3));
   attacker.hp -= Math.floor(attacker.vit / 10);
-  magic_damage_calc(attacker, defender, 0, "V", "Dark Bribe");
+  magic_damage_calc(attacker, defender, 0, "V", "Dark Bribe", values);
 });
-magic_spells.set("AFF", function cast(attacker, defender) {
+magic_spells.set("AFF", function cast(attacker, defender, values) {
   min = 2;
   max = 9;
   acc = 90;
   stun_chance = 75;
   stun_duration = 1;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "A",
-      "Shock"
+      "Shock",
+      values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, stun_chance)) {
@@ -922,72 +955,77 @@ magic_spells.set("AFF", function cast(attacker, defender) {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("AEFW", function cast(attacker, defender) {
+magic_spells.set("AEFW", function cast(attacker, defender, values) {
   min = 3;
   max = 5;
   acc = 80;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "A",
-      "4 Star Barrage"
+      "4 Star Barrage",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "E",
-      "4 Star Barrage"
+      "4 Star Barrage",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "F",
-      "4 Star Barrage"
+      "4 Star Barrage",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
       get_random_range(min, max),
       "W",
-      "4 Star Barrage"
+      "4 Star Barrage",
+      values
     );
     defender.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("AAFV", function cast(attacker, defender) {
+magic_spells.set("AAFV", function cast(attacker, defender, values) {
   min = 6;
   max = 8;
   acc = 999;
   multi_hit = 3;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     for (i = 0; i < multi_hit; i++) {
       dmg = magic_damage_calc(
         attacker,
         defender,
         get_random_range(min, max),
         "V",
-        "Magic Missile"
+        "Magic Missile",
+        values
       );
       defender.hp -= dmg;
     }
@@ -995,7 +1033,7 @@ magic_spells.set("AAFV", function cast(attacker, defender) {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("AAAWW", function cast(attacker, defender) {
+magic_spells.set("AAAWW", function cast(attacker, defender, values) {
   min = 2;
   max = 6;
   acc = 85;
@@ -1007,13 +1045,14 @@ magic_spells.set("AAAWW", function cast(attacker, defender) {
     i < get_random_range(multi_hit_range_min, multi_hit_range_max);
     i++
   ) {
-    if (get_acc_check(attacker.agi, defender.agi, acc)) {
+    if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
       dmg = magic_damage_calc(
         attacker,
         defender,
         get_random_range(min, max),
         "W",
-        "Cyclone"
+        "Cyclone",
+        values
       );
       defender.hp -= dmg;
     } else {
@@ -1021,20 +1060,21 @@ magic_spells.set("AAAWW", function cast(attacker, defender) {
     }
   }
 });
-magic_spells.set("AAAFF", function cast(attacker, defender) {
+magic_spells.set("AAAFF", function cast(attacker, defender, values) {
   min = 3;
   max = 5;
   acc = 75;
   multi_hit_range = 5;
   c = 0;
   for (i = 0; i < multi_hit_range; i++) {
-    if (get_acc_check(attacker.agi, defender.agi, acc)) {
+    if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
       dmg = magic_damage_calc(
         attacker,
         defender,
         get_random_range(min, max),
         "A",
-        "Overwhelm"
+        "Overwhelm",
+        values
       );
       defender.hp -= dmg;
       c++;
@@ -1046,20 +1086,21 @@ magic_spells.set("AAAFF", function cast(attacker, defender) {
     defender.status_effects_start.push(new Enfeeble(3));
   }
 });
-magic_spells.set("AAFFF", function cast(attacker, defender) {
+magic_spells.set("AAFFF", function cast(attacker, defender, values) {
   min = 3;
   max = 5;
   acc = 75;
   multi_hit_range = 5;
   c = 0;
   for (i = 0; i < multi_hit_range; i++) {
-    if (get_acc_check(attacker.agi, defender.agi, acc)) {
+    if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
       dmg = magic_damage_calc(
         attacker,
         defender,
         get_random_range(min, max),
         "F",
-        "Brutal Strike"
+        "Brutal Strike",
+        values
       );
       defender.hp -= dmg;
       c++;
@@ -1071,87 +1112,118 @@ magic_spells.set("AAFFF", function cast(attacker, defender) {
     defender.status_effects_start.push(new Bruised(3));
   }
 });
-magic_spells.set("AVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "A", "Aeroveil");
+magic_spells.set("AVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "A", "Aeroveil", values);
   attacker.status_effects_start.push(new Aeroveil(4));
 });
-magic_spells.set("EVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "E", "Gaiaveil");
+magic_spells.set("EVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "E", "Gaiaveil", values);
   attacker.status_effects_start.push(new Gaiaveil(4));
 });
-magic_spells.set("FVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "F", "Pyroveil");
+magic_spells.set("FVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "F", "Pyroveil", values);
   attacker.status_effects_start.push(new Pyroveil(4));
 });
-magic_spells.set("WVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "W", "Hydroveil");
+magic_spells.set("WVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "W", "Hydroveil", values);
   attacker.status_effects_start.push(new Hydroveil(4));
 });
-magic_spells.set("AAVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "A", "Aerosurge");
+magic_spells.set("AAVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "A", "Aerosurge", values);
   attacker.status_effects_start.push(new Aerosurge(4));
 });
-magic_spells.set("EEVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "E", "Gaiasurge");
+magic_spells.set("EEVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "E", "Gaiasurge", values);
   attacker.status_effects_start.push(new Gaiasurge(4));
 });
-magic_spells.set("FFVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "F", "Pyrosurge");
+magic_spells.set("FFVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "F", "Pyrosurge", values);
   attacker.status_effects_start.push(new Pyrosurge(4));
 });
-magic_spells.set("WWVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "W", "Hydrosurge");
+magic_spells.set("WWVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "W", "Hydrosurge", values);
   attacker.status_effects_start.push(new Hydrosurge(4));
 });
-magic_spells.set("WWWWV", function cast(attacker, defender) {
+magic_spells.set("WWWWV", function cast(attacker, defender, values) {
   attacker.status_effects_start = [];
   attacker.status_effects_end = [];
   attacker.status_effects_stat = [];
-  magic_damage_calc(attacker, defender, 0, "W", "Cleansing Waters");
+  magic_damage_calc(attacker, defender, 0, "W", "Cleansing Waters", values);
 });
-magic_spells.set("WWV", function cast(attacker, defender) {
+magic_spells.set("WWV", function cast(attacker, defender, values) {
   min = 9;
   max = 12;
   dmg = magic_damage_calc(
     attacker,
     defender,
-    get_random_range(min, max) * (-1),
+    get_random_range(min, max) * -1,
     "W",
-    "Healing Water"
+    "Healing Water",
+    values
   );
   attacker.hp -= dmg;
 });
-magic_spells.set("AWV", function cast(attacker, defender) {
+magic_spells.set("AWV", function cast(attacker, defender, values) {
   blessing_duration = 3;
   heal = 5;
   defender.status_effects.push(new Blessing(blessing_duration, heal));
-  magic_damage_calc(attacker, defender, heal * (-1), "W", "Healing Prayer");
+  magic_damage_calc(
+    attacker,
+    defender,
+    heal * -1,
+    "W",
+    "Healing Prayer",
+    values
+  );
 });
-magic_spells.set("EEV", function cast(attacker, defender) {
+magic_spells.set("EEV", function cast(attacker, defender, values) {
   heal = 12;
   heal_atk = Math.floor((attacker.vit * 12) / 100);
   heal_def = Math.floor((defender.vit * 12) / 100);
-  magic_damage_calc(attacker, defender, heal_atk * (-1), "W", "Healing Field");
+  magic_damage_calc(
+    attacker,
+    defender,
+    heal_atk * -1,
+    "W",
+    "Healing Field",
+    values
+  );
   attacker.hp += heal_atk;
   defender.hp += heal_def;
 });
-magic_spells.set("AWVV", function cast(attacker, defender) {
+magic_spells.set("AWVV", function cast(attacker, defender, values) {
   min = 10;
   max = 15;
   acc = 65;
   amount = get_random_range(min, max);
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
-    dmg = magic_damage_calc(attacker, defender, amount, "V", "Life Sap");
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
+    dmg = magic_damage_calc(
+      attacker,
+      defender,
+      amount,
+      "V",
+      "Life Sap",
+      values
+    );
     defender.hp -= dmg;
-    dmg = magic_damage_calc(attacker, defender, amount * -1, "V", "Life Sap");
+    dmg = magic_damage_calc(
+      attacker,
+      defender,
+      amount * -1,
+      "V",
+      "Life Sap",
+      values
+    );
     attacker.hp -= dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
 });
-magic_spells.set("FFFFV", function cast(attacker, defender) {
+magic_spells.set("FFFFV", function cast(attacker, defender, values) {
   num_status =
-    attacker.status_effects_start.length + attacker.status_effects_end.length + attacker.status_effects_stat.length;
+    attacker.status_effects_start.length +
+    attacker.status_effects_end.length +
+    attacker.status_effects_stat.length;
   attacker.status_effects_start = [];
   attacker.status_effects_stat = [];
   attacker.status_effects_end = [];
@@ -1163,21 +1235,22 @@ magic_spells.set("FFFFV", function cast(attacker, defender) {
       defender,
       get_random_range(min, max),
       "F",
-      "Cleansing Fire"
+      "Cleansing Fire",
+      values
     );
     defender.hp -= dmg;
   }
 });
-magic_spells.set("VVVVV", function cast(attacker, defender) {
+magic_spells.set("VVVVV", function cast(attacker, defender, values) {
   attacker.status_effects_stat = [];
   defender.status_effects_stat = [];
-  magic_damage_calc(attacker, defender, 0, "v", "Dark Fog");
+  magic_damage_calc(attacker, defender, 0, "v", "Dark Fog", values);
 });
-magic_spells.set("AVVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "v", "Void's Call");
+magic_spells.set("AVVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "v", "Void's Call", values);
   attacker.unpurgeable_effects_end.push(new Voids_Call(999));
 });
-magic_spells.set("AFV", function cast(attacker, defender) {
+magic_spells.set("AFV", function cast(attacker, defender, values) {
   runes_to_get = 10;
   var tmp = document.createElement("p");
   if (turn) {
@@ -1186,18 +1259,18 @@ magic_spells.set("AFV", function cast(attacker, defender) {
     tmp.style.color = "blue";
   }
   get_runes(attacker, runes_to_get, tmp);
-  magic_damage_calc(attacker, defender, 0, "v", "Runic Demise");
+  magic_damage_calc(attacker, defender, 0, "v", "Runic Demise", values);
   turn = !turn;
 });
-magic_spells.set("FWV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "V", "Reverse of Arms");
+magic_spells.set("FWV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "V", "Reverse of Arms", values);
   attacker.unpurgeable_effects_start.push(new Reverse_Of_Arms(999));
 });
-magic_spells.set("EFVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "V", "Sougenmu");
+magic_spells.set("EFVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "V", "Sougenmu", values);
   attacker.status_effects_start.push(new Clone(4));
 });
-magic_spells.set("AEFWV", function cast(attacker, defender) {
+magic_spells.set("AEFWV", function cast(attacker, defender, values) {
   num_runes =
     attacker.fire +
     attacker.water +
@@ -1214,42 +1287,43 @@ magic_spells.set("AEFWV", function cast(attacker, defender) {
     defender,
     num_runes * 5,
     "V",
-    "Arcane Crash"
+    "Arcane Crash",
+    values
   );
 });
-magic_spells.set("AEEV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "V", "Battle Dance");
+magic_spells.set("AEEV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "V", "Battle Dance", values);
   attacker.unpurgeable_effects_start.push(new Battle_Dance(4));
 });
-magic_spells.set("EFV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "V", "Adrenal Surge");
+magic_spells.set("EFV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "V", "Adrenal Surge", values);
   attacker.status_effects_stat.push(new Adrenaline(4));
 });
-magic_spells.set("VVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "V", "Magical Dampener");
+magic_spells.set("VVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "V", "Magical Dampener", values);
   defender.status_effects_stat.push(new Sap(4));
 });
-magic_spells.set("VVVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "V", "Quiet Hour");
+magic_spells.set("VVVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "V", "Quiet Hour", values);
   defender.status_effects_start.push(new Silence(4));
 });
-magic_spells.set("AAE", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "E", "Gaia Parry");
+magic_spells.set("AAE", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "E", "Gaia Parry", values);
   attacker.status_effects_start.push(new Parry(4));
 });
-magic_spells.set("AEEE", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "E", "Gaia Counter");
+magic_spells.set("AEEE", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "E", "Gaia Counter", values);
   attacker.status_effects_start.push(new Counter(4));
 });
-magic_spells.set("AEVV", function cast(attacker, defender) {
-  magic_damage_calc(attacker, defender, 0, "V", "Hard Read");
+magic_spells.set("AEVV", function cast(attacker, defender, values) {
+  magic_damage_calc(attacker, defender, 0, "V", "Hard Read", values);
   attacker.status_effects_start.push(new Keen(4));
 });
-/*magic_spells.set("AAF", function cast(attacker, defender) {
+/*magic_spells.set("AAF", function cast(attacker, defender, values) {
   min = 4;
   max = 18;
   acc = 999;
-  if (get_acc_check(attacker.agi, defender.agi, acc)) {
+  if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
       defender,
