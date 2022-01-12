@@ -77,20 +77,22 @@ for (let [key, value] of magic_spells) {
   force_spell.appendChild(form);
 }
 
-document.getElementById("pow1").value = monster1.pow;
-document.getElementById("def1").value = monster1.def;
-document.getElementById("mag1").value = monster1.mag;
-document.getElementById("agi1").value = monster1.agi;
-document.getElementById("spd1").value = monster1.spd;
-document.getElementById("vit1").value = monster1.vit;
-document.getElementById("pow2").value = monster2.pow;
-document.getElementById("def2").value = monster2.def;
-document.getElementById("mag2").value = monster2.mag;
-document.getElementById("agi2").value = monster2.agi;
-document.getElementById("spd2").value = monster2.spd;
-document.getElementById("vit2").value = monster2.vit;
-
+function update_stats() {
+  document.getElementById("pow1").value = monster1.pow;
+  document.getElementById("def1").value = monster1.def;
+  document.getElementById("mag1").value = monster1.mag;
+  document.getElementById("agi1").value = monster1.agi;
+  document.getElementById("spd1").value = monster1.spd;
+  document.getElementById("vit1").value = monster1.vit;
+  document.getElementById("pow2").value = monster2.pow;
+  document.getElementById("def2").value = monster2.def;
+  document.getElementById("mag2").value = monster2.mag;
+  document.getElementById("agi2").value = monster2.agi;
+  document.getElementById("spd2").value = monster2.spd;
+  document.getElementById("vit2").value = monster2.vit;
+}
 turn = monster1.spd >= monster2.spd ? true : false; //true = left monster, false = right monster
+update_stats();
 
 rune_buttons.forEach(function (button, index) {
   button.addEventListener("click", function () {
@@ -256,8 +258,16 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name) {
   } else {
     tmp.style.color = "blue";
   }
-  tmp.innerHTML =
-    attacker.name + " uses " + spell_name + " which hits for " + dmg;
+  if(dmg < 0){
+    tmp.innerHTML =
+      attacker.name + " uses " + spell_name + " which heals for " + dmg * (-1);
+  } else if (dmg == 0) {
+    tmp.innerHTML =
+      attacker.name + " uses " + spell_name;
+  } else {
+    tmp.innerHTML =
+      attacker.name + " uses " + spell_name + " which hits for " + dmg;
+  }
   output.appendChild(tmp);
   return dmg;
 }
@@ -268,6 +278,17 @@ function status_effects_end_calc(mon) {
     mon.status_effects_end[i].use(mon);
     if (mon.status_effects_end[i].duration == 0) {
       mon.status_effects_end.splice(i, 1);
+    }
+  }
+  update_status_effect();
+  update_hp();
+}
+function status_effects_start_calc(mon) {
+  i = mon.status_effects_start.length;
+  while (i--) {
+    mon.status_effects_start[i].use(mon);
+    if (mon.status_effects_start[i].duration == 0) {
+      mon.status_effects_start.splice(i, 1);
     }
   }
   update_status_effect();
@@ -417,10 +438,16 @@ function update_status_effect() {
   monster1.status_effects_start.forEach((e) => {
     str1 += e.name + ", ";
   });
+  monster1.status_effects_stat.forEach((e) => {
+    str1 += e.name + ", ";
+  });
   monster1.status_effects_end.forEach((e) => {
     str1 += e.name + ", ";
   });
   monster2.status_effects_start.forEach((e) => {
+    str2 += e.name + ", ";
+  });
+  monster2.status_effects_stat.forEach((e) => {
     str2 += e.name + ", ";
   });
   monster2.status_effects_end.forEach((e) => {
@@ -430,17 +457,17 @@ function update_status_effect() {
   status_effect2.innerHTML = str2.substring(0, str2.length - 2);
 }
 
-function cull_output(){
+function cull_output() {
   //if(output.childNodes.length > 6){
   //  output.removeChild(output.firstChild);
   //}
-  for(i = 0; i < output.childNodes.length - 6; i++){
+  for (i = 0; i < output.childNodes.length - 6; i++) {
     output.childNodes[i].style.display = "none";
   }
 }
 
-function show_log(){
-  for(i = 0; i < output.childNodes.length; i++){
+function show_log() {
+  for (i = 0; i < output.childNodes.length; i++) {
     output.childNodes[i].style.display = "block";
   }
 }
