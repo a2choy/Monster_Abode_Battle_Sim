@@ -146,8 +146,8 @@ function attack_helper(attacker, defender) {
           tmp.innerHTML += mon.name + " got a water rune<br>";
           break;
         case "V":
-          mon.arcane++;
-          tmp.innerHTML += mon.name + " got a arcane rune<br>";
+          mon.void++;
+          tmp.innerHTML += mon.name + " got a void rune<br>";
           break;
         default:
           break;
@@ -170,7 +170,8 @@ function attack_helper(attacker, defender) {
   }
   
   function force_helper(attacker, defender, runes) {
-    magic_spells.get(runes)(attacker, defender);
+    values = status_effects_start_calc(attacker, defender)
+    magic_spells.get(runes)(attacker, defender, values);
   
     status_effects_end_calc(attacker);
   }

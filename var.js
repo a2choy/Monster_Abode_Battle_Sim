@@ -12,7 +12,7 @@ class Monster {
     this.earth = 0;
     this.air = 0;
     this.water = 0;
-    this.arcane = 0;
+    this.void = 0;
     this.status_effects_start = [];
     this.status_effects_stat = [];
     this.status_effects_end = [];
@@ -327,7 +327,7 @@ class Hydrosurge extends Status_Effect {
   name = "hydrosurge";
 }
 
-//F=fire, E=earth, A=air, W=water, V=arcane
+//F=fire, E=earth, A=air, W=water, V=void
 //list of spells and what they do
 magic_spells = new Map();
 magic_spells.set("FFF", function cast(attacker, defender, values) {
@@ -1276,12 +1276,12 @@ magic_spells.set("AEFWV", function cast(attacker, defender, values) {
     attacker.water +
     attacker.air +
     attacker.earth +
-    attacker.arcane;
+    attacker.void;
   attacker.fire = 0;
   attacker.water = 0;
   attacker.air = 0;
   attacker.earth = 0;
-  attacker.arcane = 0;
+  attacker.void = 0;
   dmg = magic_damage_calc(
     attacker,
     defender,

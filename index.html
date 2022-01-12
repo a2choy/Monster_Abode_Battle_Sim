@@ -22,8 +22,10 @@
       style="display: grid; grid-template: auto auto auto; max-width: 1750px"
     >
       <div style="grid-column: 1">
-        <h1>Monster 1</h1>
+        <h1 id="monster1_name">Monster A</h1>
         <form>
+          <label for="name1">Name:</label><br />
+          <input type="text" id="name1" name="name1" /><br />
           <label for="pow1">Power:</label><br />
           <input type="text" id="pow1" name="pow1" /><br />
           <label for="def1">Defence:</label><br />
@@ -35,10 +37,17 @@
           <label for="spd1">Speed:</label><br />
           <input type="text" id="spd1" name="spd1" /><br />
           <label for="vit1">Vitality:</label><br />
-          <input type="text" id="vit1" name="vit1" /><br /><br />
+          <input type="text" id="vit1" name="vit1" /><br />
+          <label for="vit1">Air Affinity:</label><br />
+          <input type="text" id="air1" name="air1" /><br />
+          <label for="vit1">Earth Affinity:</label><br />
+          <input type="text" id="earth1" name="earth1" /><br />
+          <label for="vit1">Water Affinity:</label><br />
+          <input type="text" id="water1" name="water1" /><br />
+          <label for="vit1">Fire Affinity:</label><br />
+          <input type="text" id="fire1" name="fire1" /><br /><br />
         </form>
-        <button onclick="update()">Update attributes</button>
-        <p id="rune1">Fire: 0 Earth: 0 Air: 0 Water: 0 Arcane: 0</p>
+        <p id="rune1">Fire: 0 Earth: 0 Air: 0 Water: 0 Void: 0</p>
         <button class="rune_btn" id="fire_up1" style="margin-right: 12px">
           ▲
         </button>
@@ -51,7 +60,7 @@
         <button class="rune_btn" id="water_up1" style="margin-right: 12px">
           ▲
         </button>
-        <button class="rune_btn" id="arcane_up1" style="margin-right: 12px">
+        <button class="rune_btn" id="void_up1" style="margin-right: 12px">
           ▲
         </button>
         <br />
@@ -67,17 +76,20 @@
         <button class="rune_btn" id="water_down1" style="margin-right: 12px">
           ▼
         </button>
-        <button class="rune_btn" id="arcane_down1" style="margin-right: 12px">
+        <button class="rune_btn" id="void_down1" style="margin-right: 12px">
           ▼
         </button>
         <p id="rune_selected1"></p>
         <h1 id="hp1">100/100</h1>
         <p id="status_effect1"></p>
+        <button onclick="update()">Update attributes</button>
         <br />
       </div>
       <div style="grid-column: 2">
-        <h1>Monster 2</h1>
+        <h1 id="monster2_name">Monster B</h1>
         <form>
+          <label for="name2">Name:</label><br />
+          <input type="text" id="name2" name="name2" /><br />
           <label for="pow2">Power:</label><br />
           <input type="text" id="pow2" name="pow2" /><br />
           <label for="def2">Defence:</label><br />
@@ -89,10 +101,17 @@
           <label for="spd2">Speed:</label><br />
           <input type="text" id="spd2" name="spd2" /><br />
           <label for="vit2">Vitality:</label><br />
-          <input type="text" id="vit2" name="vit2" /><br /><br />
+          <input type="text" id="vit2" name="vit2" /><br />
+          <label for="vit1">Air Affinity:</label><br />
+          <input type="text" id="air2" name="air2" /><br />
+          <label for="vit1">Earth Affinity:</label><br />
+          <input type="text" id="earth2" name="earth2" /><br />
+          <label for="vit1">Water Affinity:</label><br />
+          <input type="text" id="water2" name="water2" /><br />
+          <label for="vit1">Fire Affinity:</label><br />
+          <input type="text" id="fire2" name="fire2" /><br /><br />
         </form>
-        <br />
-        <p id="rune2">Fire: 0 Earth: 0 Air: 0 Water: 0 Arcane: 0</p>
+        <p id="rune2">Fire: 0 Earth: 0 Air: 0 Water: 0 Void: 0</p>
         <button class="rune_btn" id="fire_up2" style="margin-right: 12px">
           ▲
         </button>
@@ -105,7 +124,7 @@
         <button class="rune_btn" id="water_up2" style="margin-right: 12px">
           ▲
         </button>
-        <button class="rune_btn" id="arcane_up2" style="margin-right: 12px">
+        <button class="rune_btn" id="void_up2" style="margin-right: 12px">
           ▲
         </button>
         <br />
@@ -121,7 +140,7 @@
         <button class="rune_btn" id="water_down2" style="margin-right: 12px">
           ▼
         </button>
-        <button class="rune_btn" id="arcane_down2" style="margin-right: 12px">
+        <button class="rune_btn" id="void_down2" style="margin-right: 12px">
           ▼
         </button>
         <p id="rune_selected2"></p>

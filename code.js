@@ -53,7 +53,7 @@ for (i = 1; i < rune_per_pass + 1; i++) {
   opt4.innerHTML = "Water";
   opt5 = document.createElement("option");
   opt5.value = "V";
-  opt5.innerHTML = "Arcane";
+  opt5.innerHTML = "Void";
   sel.appendChild(opt1);
   sel.appendChild(opt2);
   sel.appendChild(opt3);
@@ -142,18 +142,33 @@ for (let [key, value] of magic_spells) {
 }
 
 function update_stats() {
+  document.getElementById("name1").value = monster1.name;
+
   document.getElementById("pow1").value = monster1.pow;
   document.getElementById("def1").value = monster1.def;
   document.getElementById("mag1").value = monster1.mag;
   document.getElementById("agi1").value = monster1.agi;
   document.getElementById("spd1").value = monster1.spd;
   document.getElementById("vit1").value = monster1.vit;
+
+  document.getElementById("air1").value = monster1.air_affinity;
+  document.getElementById("earth1").value = monster1.earth_affinity;
+  document.getElementById("fire1").value = monster1.fire_affinity;
+  document.getElementById("water1").value = monster1.water_affinity;
+
+  document.getElementById("name2").value = monster2.name;
+
   document.getElementById("pow2").value = monster2.pow;
   document.getElementById("def2").value = monster2.def;
   document.getElementById("mag2").value = monster2.mag;
   document.getElementById("agi2").value = monster2.agi;
   document.getElementById("spd2").value = monster2.spd;
   document.getElementById("vit2").value = monster2.vit;
+
+  document.getElementById("air2").value = monster2.air_affinity;
+  document.getElementById("earth2").value = monster2.earth_affinity;
+  document.getElementById("fire2").value = monster2.fire_affinity;
+  document.getElementById("water2").value = monster2.water_affinity;
 }
 turn = monster1.spd >= monster2.spd ? true : false; //true = left monster, false = right monster
 update_stats();
@@ -164,19 +179,45 @@ function update_hp() {
 }
 
 function update() {
+  monster1.name = document.getElementById("name1").value;
   monster1.pow = parseInt(document.getElementById("pow1").value, 10);
   monster1.def = parseInt(document.getElementById("def1").value, 10);
   monster1.mag = parseInt(document.getElementById("mag1").value, 10);
   monster1.agi = parseInt(document.getElementById("agi1").value, 10);
   monster1.spd = parseInt(document.getElementById("spd1").value, 10);
   monster1.vit = parseInt(document.getElementById("vit1").value, 10);
+  monster1.air_affinity = parseInt(document.getElementById("air1").value, 10);
+  monster1.earth_affinity = parseInt(
+    document.getElementById("earth1").value,
+    10
+  );
+  monster1.fire_affinity = parseInt(document.getElementById("fire1").value, 10);
+  monster1.water_affinity = parseInt(
+    document.getElementById("water1").value,
+    10
+  );
+
+  monster2.name = document.getElementById("name2").value;
   monster2.pow = parseInt(document.getElementById("pow2").value, 10);
   monster2.def = parseInt(document.getElementById("def2").value, 10);
   monster2.mag = parseInt(document.getElementById("mag2").value, 10);
   monster2.agi = parseInt(document.getElementById("agi2").value, 10);
   monster2.spd = parseInt(document.getElementById("spd2").value, 10);
   monster2.vit = parseInt(document.getElementById("vit2").value, 10);
+  monster2.air_affinity = parseInt(document.getElementById("air2").value, 10);
+  monster2.earth_affinity = parseInt(
+    document.getElementById("earth2").value,
+    10
+  );
+  monster2.fire_affinity = parseInt(document.getElementById("fire2").value, 10);
+  monster2.water_affinity = parseInt(
+    document.getElementById("water2").value,
+    10
+  );
   turn = monster1.spd > monster2.spd ? true : false;
+
+  document.getElementById("monster1_name").innerHTML = monster1.name;
+  document.getElementById("monster2_name").innerHTML = monster2.name;
 }
 
 function update_runes() {
@@ -196,7 +237,7 @@ function update_runes() {
         tmp += "Water ";
         break;
       case "V":
-        tmp += "Arcane ";
+        tmp += "Void ";
         break;
       default:
         break;
@@ -219,7 +260,7 @@ function update_runes() {
         tmp += "Water ";
         break;
       case "V":
-        tmp += "Arcane ";
+        tmp += "Void ";
         break;
       default:
         break;
@@ -238,8 +279,8 @@ function update_rune_count() {
     monster1.air +
     " Water: " +
     monster1.water +
-    " Arcane: " +
-    monster1.arcane;
+    " Void: " +
+    monster1.void;
   rune2.innerHTML =
     "Fire: " +
     monster2.fire +
@@ -249,8 +290,8 @@ function update_rune_count() {
     monster2.air +
     " Water: " +
     monster2.water +
-    " Arcane: " +
-    monster2.arcane;
+    " Void: " +
+    monster2.void;
 }
 
 function update_status_effect() {
@@ -317,10 +358,10 @@ rune_buttons.forEach(function (button, index) {
           monster1.water--;
         }
         break;
-      case "arcane_up1":
-        if (monster1.arcane > 0) {
+      case "void_up1":
+        if (monster1.void > 0) {
           curr_runes1.push("V");
-          monster1.arcane--;
+          monster1.void--;
         }
         break;
       case "fire_down1":
@@ -343,9 +384,9 @@ rune_buttons.forEach(function (button, index) {
           monster1.water++;
         }
         break;
-      case "arcane_down1":
+      case "void_down1":
         if (remove_element(curr_runes1, "V")) {
-          monster1.arcane++;
+          monster1.void++;
         }
         break;
       case "fire_up2":
@@ -372,10 +413,10 @@ rune_buttons.forEach(function (button, index) {
           monster2.water--;
         }
         break;
-      case "arcane_up2":
-        if (monster2.arcane > 0) {
+      case "void_up2":
+        if (monster2.void > 0) {
           curr_runes2.push("V");
-          monster2.arcane--;
+          monster2.void--;
         }
         break;
       case "fire_down2":
@@ -398,9 +439,9 @@ rune_buttons.forEach(function (button, index) {
           monster2.water++;
         }
         break;
-      case "arcane_down2":
+      case "void_down2":
         if (remove_element(curr_runes2, "V")) {
-          monster2.arcane++;
+          monster2.void++;
         }
         break;
       default:
@@ -456,19 +497,19 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
   } else if (dmg == 0) {
     tmp.innerHTML = attacker.name + " uses " + spell_name;
   } else {
-    tmp_dmg = (dmg * values.get("mag1")) / values.get("mag2");
+    dmg = (dmg * values.get("mag1")) / values.get("mag2");
     switch (type) {
       case "A":
-        tmp_dmg = (tmp_dmg * (values.get("air1") - values.get("air2"))) / 2;
+        dmg = dmg * (1 + (values.get("air1") - values.get("air2")) / 4);
         break;
       case "E":
-        tmp_dmg = (tmp_dmg * (values.get("earth1") - values.get("earth2"))) / 2;
+        dmg = dmg * (1 + (values.get("earth1") - values.get("earth2")) / 4);
         break;
       case "F":
-        tmp_dmg = (tmp_dmg * (values.get("fire1") - values.get("fire2"))) / 2;
+        dmg = dmg * (1 + (values.get("fire1") - values.get("fire2")) / 4);
         break;
       case "W":
-        tmp_dmg = (tmp_dmg * (values.get("water1") - values.get("water2"))) / 2;
+        dmg = dmg * (1 + (values.get("water1") - values.get("water2")) / 4);
         break;
       case "V":
         break;
@@ -476,7 +517,11 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
         break;
     }
     tmp.innerHTML =
-      attacker.name + " uses " + spell_name + " which hits for " + Math.round(tmp_dmg);
+      attacker.name +
+      " uses " +
+      spell_name +
+      " which hits for " +
+      Math.round(dmg);
   }
   output.appendChild(tmp);
   return dmg;
@@ -904,8 +949,8 @@ function get_runes(mon, n, p) {
         p.innerHTML += mon.name + " got a water rune<br>";
         break;
       case 4:
-        mon.arcane++;
-        p.innerHTML += mon.name + " got a arcane rune<br>";
+        mon.void++;
+        p.innerHTML += mon.name + " got a void rune<br>";
         break;
       default:
         break;
