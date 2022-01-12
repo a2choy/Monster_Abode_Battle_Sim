@@ -501,15 +501,27 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
     switch (type) {
       case "A":
         dmg = dmg * (1 + (values.get("air1") - values.get("air2")) / 4);
+        if(values.get("aeroveil2")){
+          dmg = dmg * 0.8;
+        }
         break;
       case "E":
         dmg = dmg * (1 + (values.get("earth1") - values.get("earth2")) / 4);
+        if(values.get("gaiaveil2")){
+          dmg = dmg * 0.8;
+        }
         break;
       case "F":
         dmg = dmg * (1 + (values.get("fire1") - values.get("fire2")) / 4);
+        if(values.get("pyroveil2")){
+          dmg = dmg * 0.8;
+        }
         break;
       case "W":
         dmg = dmg * (1 + (values.get("water1") - values.get("water2")) / 4);
+        if(values.get("hydroveil2")){
+          dmg = dmg * 0.8;
+        }
         break;
       case "V":
         break;
