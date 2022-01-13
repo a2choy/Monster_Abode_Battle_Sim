@@ -5,7 +5,7 @@ var monster2 = new Monster("Monster B", 95, 95, 95, 95, 95, 500); //
 base_acc = 80; //base acc
 //
 dmg_min = 10; //min max of dmg
-dmg_max = 20; //
+dmg_max = 15; //
 //
 //def_min = 80; //min max of def
 //def_max = 110; //
@@ -186,6 +186,7 @@ function update() {
   monster1.agi = parseInt(document.getElementById("agi1").value, 10);
   monster1.spd = parseInt(document.getElementById("spd1").value, 10);
   monster1.vit = parseInt(document.getElementById("vit1").value, 10);
+  monster1.hp = parseInt(document.getElementById("vit1").value, 10);
   monster1.air_affinity = parseInt(document.getElementById("air1").value, 10);
   monster1.earth_affinity = parseInt(
     document.getElementById("earth1").value,
@@ -204,6 +205,7 @@ function update() {
   monster2.agi = parseInt(document.getElementById("agi2").value, 10);
   monster2.spd = parseInt(document.getElementById("spd2").value, 10);
   monster2.vit = parseInt(document.getElementById("vit2").value, 10);
+  monster2.hp = parseInt(document.getElementById("vit2").value, 10);
   monster2.air_affinity = parseInt(document.getElementById("air2").value, 10);
   monster2.earth_affinity = parseInt(
     document.getElementById("earth2").value,
@@ -218,6 +220,7 @@ function update() {
 
   document.getElementById("monster1_name").innerHTML = monster1.name;
   document.getElementById("monster2_name").innerHTML = monster2.name;
+  update_changed_stats()
 }
 
 function update_runes() {
@@ -497,6 +500,7 @@ function update_changed_stats() {
 update_changed_stats();
 update_hp();
 update_status_effect();
+turn_color()
 
 //////////////////////////////////////////////ignore these too
 
@@ -543,25 +547,25 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
     dmg = (dmg * values.get("mag1")) / values.get("mag2");
     switch (type) {
       case "A":
-        dmg = dmg * (1 + (values.get("air1") - values.get("air2")) / 4);
+        dmg = dmg * (values.get("air1")/values.get("air2"));
         if (values.get("aeroveil2")) {
           dmg = dmg * 0.8;
         }
         break;
       case "E":
-        dmg = dmg * (1 + (values.get("earth1") - values.get("earth2")) / 4);
+        dmg = dmg * (values.get("earth1")/values.get("earth2"));
         if (values.get("gaiaveil2")) {
           dmg = dmg * 0.8;
         }
         break;
       case "F":
-        dmg = dmg * (1 + (values.get("fire1") - values.get("fire2")) / 4);
+        dmg = dmg * (values.get("fire1")/values.get("fire2"));
         if (values.get("pyroveil2")) {
           dmg = dmg * 0.8;
         }
         break;
       case "W":
-        dmg = dmg * (1 + (values.get("water1") - values.get("water2")) / 4);
+        dmg = dmg * (values.get("water1")/values.get("water2"));
         if (values.get("hydroveil2")) {
           dmg = dmg * 0.8;
         }
@@ -571,12 +575,13 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
       default:
         break;
     }
+    dmg = Math.round(dmg)
     tmp.innerHTML =
       attacker.name +
       " uses " +
       spell_name +
       " which hits for " +
-      Math.round(dmg);
+      dmg;
   }
   output.appendChild(tmp);
   return dmg;
@@ -1025,6 +1030,16 @@ function cull_output() {
 function show_log() {
   for (i = 0; i < output.childNodes.length; i++) {
     output.childNodes[i].style.display = "block";
+  }
+}
+
+function turn_color(){
+  if(turn){
+    document.getElementById("monster1_name").style.color = "orange";
+    document.getElementById("monster2_name").style.color = "black";
+  } else {
+    document.getElementById("monster2_name").style.color = "orange";
+    document.getElementById("monster1_name").style.color = "black";
   }
 }
 //////////////////////////////////////////////ignore up to here

@@ -43,10 +43,8 @@ function attack_helper(attacker, defender) {
       }
     }
 
-    dmg = Math.round(
-      (get_random_range(dmg_min, dmg_max) * values.get("pow1")) /
-        values.get("def1")
-    );
+    base_dmg = get_random_range(dmg_min, dmg_max);
+    dmg = Math.round((base_dmg * values.get("pow1")) / values.get("def2"));
 
     if (values.get("counter2")) {
       if (get_acc_check(0, 0, 20)) {
@@ -56,7 +54,8 @@ function attack_helper(attacker, defender) {
         } else {
           tmp.style.color = "blue";
         }
-        tmp.innerHTML = attacker.name + "'s attack was countered for " + dmg + " dmg<br>";
+        tmp.innerHTML =
+          attacker.name + "'s attack was countered for " + dmg + " dmg<br>";
         output.appendChild(tmp);
         attacker.hp -= dmg;
         update_hp();
@@ -70,7 +69,6 @@ function attack_helper(attacker, defender) {
         return;
       }
     }
-    
 
     var tmp = document.createElement("p");
     if (turn) {
@@ -106,7 +104,9 @@ function attack() {
   } else {
     attack_helper(monster2, monster1);
   }
+
   turn = !turn;
+  turn_color();
   cull_output();
 }
 
@@ -136,7 +136,10 @@ function magic_helper(attacker, defender, cur) {
     tmp.style.color = "red";
     tmp.innerHTML = "Wrong combination... poof!<br>";
     get_runes(attacker, runes_per_poof, tmp);
-    turn = !turn;
+    len = cur.length;
+    for (i = 0; i < len; i++) {
+      cur.pop();
+    }
     return;
   }
   magic_spells.get(str)(attacker, defender, values);
@@ -158,7 +161,9 @@ function magic() {
     magic_helper(monster2, monster1, curr_runes2);
   }
   update_hp();
+
   turn = !turn;
+  turn_color();
   cull_output();
 }
 
@@ -207,7 +212,9 @@ function pass() {
   } else {
     pass_helper(monster2);
   }
+
   turn = !turn;
+  turn_color();
   cull_output();
 }
 
@@ -234,5 +241,6 @@ function force() {
   }
   update_hp();
   turn = !turn;
+  turn_color();
   cull_output();
 }
