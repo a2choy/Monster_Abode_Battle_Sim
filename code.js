@@ -14,7 +14,8 @@ rune_per_attack = 2; //number of runes generated per attack
 rune_per_pass = 3; //number of runes generated per pass
 runes_per_poof = 1; //num runes per pass
 //***************************************************************//
-
+turn_counter = 0;
+turn = true; //default to player monster
 //////////////////////////////////////////////ignore this
 curr_runes1 = [];
 curr_runes2 = [];
@@ -170,10 +171,10 @@ function update_stats() {
   document.getElementById("fire2").value = monster2.fire_affinity;
   document.getElementById("water2").value = monster2.water_affinity;
 }
-turn = monster1.spd >= monster2.spd ? true : false; //true = left monster, false = right monster
-update_stats();
 
 function update_hp() {
+  monster1.hp = monster1.hp > monster1.vit ? monster1.vit : monster1.hp;
+  monster2.hp = monster2.hp > monster2.vit ? monster2.vit : monster2.hp;
   hp1.innerHTML = monster1.hp + " / " + monster1.vit;
   hp2.innerHTML = monster2.hp + " / " + monster2.vit;
 }
@@ -498,10 +499,23 @@ function update_changed_stats() {
     values.get("water2");
 }
 
+function update_turn() {
+  values = status_effects_start_calc(monster1, monster2);
+  turn_counter++;
+  if (turn_counter % 2 == 1) {
+    turn = values.get("spd1") >= values.get("spd2") ? true : false; //true = left monster, false = right monster
+  } else {
+    turn = !turn;
+  }
+  document.getElementById("turn_counter").innerHTML = "Turn: " + turn_counter;
+}
+
+update_stats();
 update_changed_stats();
 update_hp();
 update_status_effect();
 turn_color();
+update_turn();
 
 //////////////////////////////////////////////ignore these too
 
@@ -550,25 +564,25 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
       case "A":
         dmg = dmg * (values.get("air1") / values.get("air2"));
         if (values.get("aeroveil2")) {
-          dmg = dmg * 0.8;
+          dmg = dmg * 0.7;
         }
         break;
       case "E":
         dmg = dmg * (values.get("earth1") / values.get("earth2"));
         if (values.get("gaiaveil2")) {
-          dmg = dmg * 0.8;
+          dmg = dmg * 0.7;
         }
         break;
       case "F":
         dmg = dmg * (values.get("fire1") / values.get("fire2"));
         if (values.get("pyroveil2")) {
-          dmg = dmg * 0.8;
+          dmg = dmg * 0.7;
         }
         break;
       case "W":
         dmg = dmg * (values.get("water1") / values.get("water2"));
         if (values.get("hydroveil2")) {
-          dmg = dmg * 0.8;
+          dmg = dmg * 0.7;
         }
         break;
       case "V":
@@ -584,9 +598,17 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
   return dmg;
 }
 
-function status_effects_end_calc(mon) {
+function status_effects_end_calc(mon, defender) {
   i = mon.status_effects_end.length;
   while (i--) {
+    if (
+      mon.status_effects_end.filter((e) => e.name === "ghostly_wounds").length >
+      0
+    ) {
+      if (mon.status_effects_end[i].name == "burn") {
+        mon.status_effects_end[i].damage *= 2;
+      }
+    }
     mon.status_effects_end[i].use(mon);
     if (mon.status_effects_end[i].duration == 0) {
       mon.status_effects_end.splice(i, 1);
@@ -594,7 +616,11 @@ function status_effects_end_calc(mon) {
   }
   i = mon.unpurgeable_effects_end.length;
   while (i--) {
-    mon.unpurgeable_effects_end[i].use(mon);
+    if (mon.unpurgeable_effects_end[i].name == "voids_call") {
+      mon.unpurgeable_effects_end[i].use(mon, defender);
+    } else {
+      mon.unpurgeable_effects_end[i].use(mon);
+    }
     if (mon.unpurgeable_effects_end[i].duration == 0) {
       mon.unpurgeable_effects_end.splice(i, 1);
     }
@@ -660,7 +686,12 @@ function status_effects_start_calc(attacker, defender) {
   clone1 = 0;
   counter2 = false;
   parry2 = false;
-  ghostly_wounds2 = false;
+
+  freeze_stun1 = false;
+  silence1 = false;
+
+  keen1 = false;
+  bruised2 = false;
 
   if (
     attacker.status_effects_stat.filter((e) => e.name === "slow").length >= 2
@@ -907,6 +938,36 @@ function status_effects_start_calc(attacker, defender) {
   ) {
     tmp_pow1 += 0.5;
   }
+  if (
+    defender.unpurgeable_effects_start.filter((e) => e.name === "battle_dance")
+      .length >= 1
+  ) {
+    tmp_pow2 += 0.5;
+  }
+  //////////////////////////////
+  if (
+    attacker.status_effects_start.filter((e) => e.name === "freeze_stun")
+      .length >= 1
+  ) {
+    freeze_stun1 = true;
+  }
+  if (
+    attacker.status_effects_start.filter((e) => e.name === "silence").length >=
+    1
+  ) {
+    silence1 = true;
+  }
+  if (
+    attacker.status_effects_start.filter((e) => e.name === "keen").length >= 1
+  ) {
+    keen1 = true;
+  }
+  if (
+    defender.status_effects_start.filter((e) => e.name === "bruised").length >=
+    1
+  ) {
+    bruised2 = true;
+  }
   //////////////////////////////
   tmp_pow1 *= attacker.pow;
   tmp_def1 *= attacker.def;
@@ -967,7 +1028,10 @@ function status_effects_start_calc(attacker, defender) {
   ret.set("clone1", clone1);
   ret.set("counter2", counter2);
   ret.set("parry2", parry2);
-  ret.set("ghostly_wounds2", ghostly_wounds2);
+  ret.set("freeze_stun1", freeze_stun1);
+  ret.set("silence1", silence1);
+  ret.set("keen1", keen1);
+  ret.set("bruised2", bruised2);
   return ret;
 }
 

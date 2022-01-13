@@ -38,7 +38,7 @@ function attack_helper(attacker, defender) {
         }
         tmp.innerHTML = attacker.name + "'s attack was parried<br>";
         output.appendChild(tmp);
-        status_effects_end_calc(attacker);
+        status_effects_end_calc(attacker, defender);
         return;
       }
     }
@@ -65,7 +65,7 @@ function attack_helper(attacker, defender) {
           tmp.innerHTML = defender.name + " wins!";
           output.appendChild(tmp);
         }
-        status_effects_end_calc(attacker);
+        status_effects_end_calc(attacker, defender);
         return;
       }
     }
@@ -95,7 +95,7 @@ function attack_helper(attacker, defender) {
     }
   }
 
-  status_effects_end_calc(attacker);
+  status_effects_end_calc(attacker, defender);
 }
 
 function attack() {
@@ -105,7 +105,7 @@ function attack() {
     attack_helper(monster2, monster1);
   }
 
-  turn = !turn;
+  update_turn();
   turn_color();
   cull_output();
 }
@@ -113,12 +113,11 @@ function attack() {
 function magic_helper(attacker, defender, cur) {
   values = status_effects_start_calc(attacker, defender);
 
-  if (cur.length < 3) {
-    var tmp = document.createElement("p");
+  if(values.get("silence1")){
+    tmp = document.createElement("p");
     tmp.style.color = "red";
-    tmp.innerHTML = "Must use at least 3 runes";
+    tmp.innerHTML = attacker.name + " is silenced";
     output.appendChild(tmp);
-    turn = !turn;
     return;
   }
 
@@ -150,24 +149,38 @@ function magic_helper(attacker, defender, cur) {
   }
 
   update_runes();
-
-  status_effects_end_calc(attacker);
+  status_effects_end_calc(attacker, defender);
+  update_turn();
 }
 
 function magic() {
   if (turn) {
+    if (curr_runes1.length < 3) {
+      var tmp = document.createElement("p");
+      tmp.style.color = "red";
+      tmp.innerHTML = "Must use at least 3 runes";
+      output.appendChild(tmp);
+      return;
+    }
     magic_helper(monster1, monster2, curr_runes1);
   } else {
+    if (curr_runes2.length < 3) {
+      var tmp = document.createElement("p");
+      tmp.style.color = "red";
+      tmp.innerHTML = "Must use at least 3 runes";
+      output.appendChild(tmp);
+      return;
+    }
     magic_helper(monster2, monster1, curr_runes2);
   }
   update_hp();
 
-  turn = !turn;
+  
   turn_color();
   cull_output();
 }
 
-function pass_helper(mon) {
+function pass_helper(mon, defender) {
   var tmp = document.createElement("p");
   if (turn) {
     tmp.style.color = "green";
@@ -203,17 +216,17 @@ function pass_helper(mon) {
   output.appendChild(tmp);
   update_rune_count();
 
-  status_effects_end_calc(mon);
+  status_effects_end_calc(mon, defender);
 }
 
 function pass() {
   if (turn) {
-    pass_helper(monster1);
+    pass_helper(monster1 , monster2);
   } else {
-    pass_helper(monster2);
+    pass_helper(monster2, monster1);
   }
 
-  turn = !turn;
+  update_turn();
   turn_color();
   cull_output();
 }
@@ -222,7 +235,7 @@ function force_helper(attacker, defender, runes) {
   values = status_effects_start_calc(attacker, defender);
   magic_spells.get(runes)(attacker, defender, values);
 
-  status_effects_end_calc(attacker);
+  status_effects_end_calc(attacker, defender);
 }
 
 function force() {
@@ -240,7 +253,7 @@ function force() {
     );
   }
   update_hp();
-  turn = !turn;
+  update_turn();
   turn_color();
   cull_output();
 }

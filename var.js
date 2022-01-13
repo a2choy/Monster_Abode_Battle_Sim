@@ -190,7 +190,15 @@ class Blessing extends Status_Effect {
   }
   use(x) {
     super.use(x);
-    x.vit += this.heal;
+    x.hp += this.heal;
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " heals for  " + this.heal;
+    output.appendChild(tmp);
   }
 }
 class Adrenaline extends Status_Effect {
@@ -251,17 +259,34 @@ class Voids_Call extends Status_Effect {
   damage_min = 4;
   damage_max = 6;
   recoil = 20;
-  use(x) {
+  damage = 0;
+  use(x, y) {
     super.use(x);
-    x.hp -= this.damage;
-    var tmp = document.createElement("p");
-    if (turn) {
-      tmp.style.color = "green";
+    if (x.void == 0) {
+      x.hp = x.vit * 0.75;
+      this.duration = 0;
+      var tmp = document.createElement("p");
+      if (turn) {
+        tmp.style.color = "green";
+      } else {
+        tmp.style.color = "blue";
+      }
+      tmp.innerHTML = x.name + " takes recoil dmg";
+      output.appendChild(tmp);
     } else {
-      tmp.style.color = "blue";
+      this.damage = get_random_range(this.damage_min, this.damage_max);
+      y.hp -= this.damage;
+      var tmp = document.createElement("p");
+      if (turn) {
+        tmp.style.color = "green";
+      } else {
+        tmp.style.color = "blue";
+      }
+      tmp.innerHTML = y.name + " takes  " + this.damage + " Void's Call dmg";
+      output.appendChild(tmp);
+      x.void--;
+      update_rune_count();
     }
-    tmp.innerHTML = x.name + " takes  " + this.damage + " Void's Call dmg";
-    output.appendChild(tmp);
   }
 }
 
@@ -292,6 +317,14 @@ class Guard_Crush extends Status_Effect {
     super.use(x);
     x.hp -= this.damage;
     x.status_effects_stat.push(new Guard_Break(3));
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " takes " + this.damage + " dmg from guard crush";
+    output.appendChild(tmp);
   }
 }
 
@@ -325,6 +358,21 @@ class Pyrosurge extends Status_Effect {
 
 class Hydrosurge extends Status_Effect {
   name = "hydrosurge";
+}
+
+class Runic_Demise extends Status_Effect {
+  name = "runic_demise";
+  use(x) {
+    super.use(x);
+    if (this.duration == 0) {
+      x.fire = 0;
+      x.water = 0;
+      x.earth = 0;
+      x.air = 0;
+      x.void = 0;
+      update_rune_count();
+    }
+  }
 }
 
 //F=fire, E=earth, A=air, W=water, V=void
@@ -509,6 +557,7 @@ magic_spells.set("AAAAA", function cast(attacker, defender, values) {
   max = 4;
   acc = 999;
   multi_hit = 5;
+  total_dmg = 0;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     for (i = 0; i < multi_hit; i++) {
       dmg = magic_damage_calc(
@@ -520,7 +569,16 @@ magic_spells.set("AAAAA", function cast(attacker, defender, values) {
         values
       );
       defender.hp -= dmg;
+      total_dmg += dmg;
     }
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = attacker.name + " dealt a total of " + total_dmg + " dmg";
+    output.appendChild(tmp);
   } else {
     spell_acc_dialogue(attacker);
   }
@@ -535,7 +593,7 @@ magic_spells.set("EEE", function cast(attacker, defender, values) {
       defender,
       get_random_range(min, max),
       "E",
-      "Stone Strike",
+      "Gaia Strike",
       values
     );
     defender.hp -= dmg;
@@ -555,7 +613,7 @@ magic_spells.set("EEEE", function cast(attacker, defender, values) {
       defender,
       get_random_range(min, max),
       "E",
-      "Stone Edge",
+      "Gaia Edge",
       values
     );
     defender.hp -= dmg;
@@ -578,7 +636,7 @@ magic_spells.set("EEEEE", function cast(attacker, defender, values) {
       defender,
       get_random_range(min, max),
       "E",
-      "Stone Assault",
+      "Gaia Assault",
       values
     );
     defender.hp -= dmg;
@@ -713,7 +771,7 @@ magic_spells.set("AEE", function cast(attacker, defender, values) {
       defender,
       get_random_range(min * multiplier, max * multiplier),
       "E",
-      "Rollout",
+      "Rock Roll",
       values
     );
     defender.hp -= dmg;
@@ -736,47 +794,48 @@ magic_spells.set("AFFV", function cast(attacker, defender, values) {
       values
     );
     defender.hp -= dmg;
+    switch (get_random_int(5)) {
+      case 0:
+        attacker.status_effects_stat.push(new Slow(3));
+        break;
+      case 1:
+        attacker.status_effects_stat.push(new Sap(3));
+        break;
+      case 2:
+        attacker.status_effects_stat.push(new Enfeeble(3));
+        break;
+      case 3:
+        attacker.status_effects_stat.push(new Guard_Break(3));
+        break;
+      case 4:
+        attacker.status_effects_stat.push(new Blind(3));
+        break;
+      default:
+        break;
+    }
+    switch (get_random_int(5)) {
+      case 0:
+        attacker.status_effects_stat.push(new Slow(3));
+        break;
+      case 1:
+        attacker.status_effects_stat.push(new Sap(3));
+        break;
+      case 2:
+        attacker.status_effects_stat.push(new Enfeeble(3));
+        break;
+      case 3:
+        attacker.status_effects_stat.push(new Guard_Break(3));
+        break;
+      case 4:
+        attacker.status_effects_stat.push(new Blind(3));
+        break;
+      default:
+        break;
+    }
   } else {
     spell_acc_dialogue(attacker);
   }
-  switch (get_random_int(5)) {
-    case 0:
-      attacker.status_effects_stat.push(new Slow(3));
-      break;
-    case 1:
-      attacker.status_effects_stat.push(new Sap(3));
-      break;
-    case 2:
-      attacker.status_effects_stat.push(new Enfeeble(3));
-      break;
-    case 3:
-      attacker.status_effects_stat.push(new Guard_Break(3));
-      break;
-    case 4:
-      attacker.status_effects_stat.push(new Blind(3));
-      break;
-    default:
-      break;
-  }
-  switch (get_random_int(5)) {
-    case 0:
-      attacker.status_effects_stat.push(new Slow(3));
-      break;
-    case 1:
-      attacker.status_effects_stat.push(new Sap(3));
-      break;
-    case 2:
-      attacker.status_effects_stat.push(new Enfeeble(3));
-      break;
-    case 3:
-      attacker.status_effects_stat.push(new Guard_Break(3));
-      break;
-    case 4:
-      attacker.status_effects_stat.push(new Blind(3));
-      break;
-    default:
-      break;
-  }
+  
 });
 magic_spells.set("AWW", function cast(attacker, defender, values) {
   min = 6;
@@ -879,7 +938,7 @@ magic_spells.set("FFFV", function cast(attacker, defender, values) {
       !defender.status_effects_start.filter((e) => e.name === "ghostly_wounds")
         .length > 0
     ) {
-      defender.status_effects_start.push(new Ghostly_Wounds(2));
+      defender.status_effects_end.push(new Ghostly_Wounds(2));
     }
   }
   magic_damage_calc(
@@ -892,7 +951,7 @@ magic_spells.set("FFFV", function cast(attacker, defender, values) {
   );
 });
 magic_spells.set("EFFV", function cast(attacker, defender, values) {
-  dmg = 20;
+  crush_dmg = 20;
   acc = 100;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
@@ -903,7 +962,7 @@ magic_spells.set("EFFV", function cast(attacker, defender, values) {
       "Guard Crush",
       values
     );
-    defender.status_effects.push(new Guard_Crush(1, dmg));
+    defender.status_effects_start.push(new Guard_Crush(1, crush_dmg));
   } else {
     spell_acc_dialogue(attacker);
   }
@@ -959,6 +1018,7 @@ magic_spells.set("AEFW", function cast(attacker, defender, values) {
   min = 3;
   max = 5;
   acc = 80;
+  total_dmg = 0;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -969,6 +1029,7 @@ magic_spells.set("AEFW", function cast(attacker, defender, values) {
       values
     );
     defender.hp -= dmg;
+    total_dmg += dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
@@ -982,6 +1043,7 @@ magic_spells.set("AEFW", function cast(attacker, defender, values) {
       values
     );
     defender.hp -= dmg;
+    total_dmg += dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
@@ -995,6 +1057,7 @@ magic_spells.set("AEFW", function cast(attacker, defender, values) {
       values
     );
     defender.hp -= dmg;
+    total_dmg += dmg;
   } else {
     spell_acc_dialogue(attacker);
   }
@@ -1008,8 +1071,19 @@ magic_spells.set("AEFW", function cast(attacker, defender, values) {
       values
     );
     defender.hp -= dmg;
+    total_dmg += dmg;
   } else {
     spell_acc_dialogue(attacker);
+  }
+  if (total_dmg > 0) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = attacker.name + " dealt a total of " + total_dmg + " dmg";
+    output.appendChild(tmp);
   }
 });
 magic_spells.set("AAFV", function cast(attacker, defender, values) {
@@ -1017,6 +1091,7 @@ magic_spells.set("AAFV", function cast(attacker, defender, values) {
   max = 8;
   acc = 999;
   multi_hit = 3;
+  total_dmg = 0;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     for (i = 0; i < multi_hit; i++) {
       dmg = magic_damage_calc(
@@ -1028,7 +1103,16 @@ magic_spells.set("AAFV", function cast(attacker, defender, values) {
         values
       );
       defender.hp -= dmg;
+      total_dmg += dmg;
     }
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = attacker.name + " dealt a total of " + total_dmg + " dmg";
+    output.appendChild(tmp);
   } else {
     spell_acc_dialogue(attacker);
   }
@@ -1039,7 +1123,7 @@ magic_spells.set("AAAWW", function cast(attacker, defender, values) {
   acc = 85;
   multi_hit_range_min = 4;
   multi_hit_range_max = 6;
-
+  total_dmg = 0;
   for (
     i = 0;
     i < get_random_range(multi_hit_range_min, multi_hit_range_max);
@@ -1055,9 +1139,20 @@ magic_spells.set("AAAWW", function cast(attacker, defender, values) {
         values
       );
       defender.hp -= dmg;
+      total_dmg += dmg;
     } else {
       spell_acc_dialogue(attacker);
     }
+  }
+  if (total_dmg > 0) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = attacker.name + " dealt a total of " + total_dmg + " dmg";
+    output.appendChild(tmp);
   }
 });
 magic_spells.set("AAAFF", function cast(attacker, defender, values) {
@@ -1065,6 +1160,7 @@ magic_spells.set("AAAFF", function cast(attacker, defender, values) {
   max = 5;
   acc = 75;
   multi_hit_range = 5;
+  total_dmg = 0;
   c = 0;
   for (i = 0; i < multi_hit_range; i++) {
     if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
@@ -1077,6 +1173,7 @@ magic_spells.set("AAAFF", function cast(attacker, defender, values) {
         values
       );
       defender.hp -= dmg;
+      total_dmg += dmg;
       c++;
     } else {
       spell_acc_dialogue(attacker);
@@ -1085,12 +1182,23 @@ magic_spells.set("AAAFF", function cast(attacker, defender, values) {
   if (c >= 4) {
     defender.status_effects_start.push(new Enfeeble(3));
   }
+  if (total_dmg > 0) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = attacker.name + " dealt a total of " + total_dmg + " dmg";
+    output.appendChild(tmp);
+  }
 });
 magic_spells.set("AAFFF", function cast(attacker, defender, values) {
   min = 3;
   max = 5;
   acc = 75;
   multi_hit_range = 5;
+  total_dmg = 0;
   c = 0;
   for (i = 0; i < multi_hit_range; i++) {
     if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
@@ -1103,6 +1211,7 @@ magic_spells.set("AAFFF", function cast(attacker, defender, values) {
         values
       );
       defender.hp -= dmg;
+      total_dmg += dmg;
       c++;
     } else {
       spell_acc_dialogue(attacker);
@@ -1110,6 +1219,16 @@ magic_spells.set("AAFFF", function cast(attacker, defender, values) {
   }
   if (c >= 4) {
     defender.status_effects_start.push(new Bruised(3));
+  }
+  if (total_dmg > 0) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = attacker.name + " dealt a total of " + total_dmg + " dmg";
+    output.appendChild(tmp);
   }
 });
 magic_spells.set("AVV", function cast(attacker, defender, values) {
@@ -1166,7 +1285,7 @@ magic_spells.set("WWV", function cast(attacker, defender, values) {
 magic_spells.set("AWV", function cast(attacker, defender, values) {
   blessing_duration = 3;
   heal = 5;
-  defender.status_effects.push(new Blessing(blessing_duration, heal));
+  defender.status_effects_end.push(new Blessing(blessing_duration, heal));
   magic_damage_calc(
     attacker,
     defender,
@@ -1244,11 +1363,16 @@ magic_spells.set("FFFFV", function cast(attacker, defender, values) {
 magic_spells.set("VVVVV", function cast(attacker, defender, values) {
   attacker.status_effects_stat = [];
   defender.status_effects_stat = [];
-  magic_damage_calc(attacker, defender, 0, "v", "Dark Fog", values);
+  magic_damage_calc(attacker, defender, 0, "V", "Dark Fog", values);
 });
 magic_spells.set("AVVV", function cast(attacker, defender, values) {
-  magic_damage_calc(attacker, defender, 0, "v", "Void's Call", values);
-  attacker.unpurgeable_effects_end.push(new Voids_Call(999));
+  magic_damage_calc(attacker, defender, 0, "V", "Void's Call", values);
+  if (
+    attacker.unpurgeable_effects_end.filter((e) => e.name === "voids_call")
+      .length == 0
+  ) {
+    attacker.unpurgeable_effects_end.push(new Voids_Call(999));
+  }
 });
 magic_spells.set("AFV", function cast(attacker, defender, values) {
   runes_to_get = 10;
@@ -1259,8 +1383,8 @@ magic_spells.set("AFV", function cast(attacker, defender, values) {
     tmp.style.color = "blue";
   }
   get_runes(attacker, runes_to_get, tmp);
-  magic_damage_calc(attacker, defender, 0, "v", "Runic Demise", values);
-  turn = !turn;
+  magic_damage_calc(attacker, defender, 0, "V", "Runic Demise", values);
+  attacker.unpurgeable_effects_end.push(new Runic_Demise(2));
 });
 magic_spells.set("FWV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Reverse of Arms", values);
@@ -1290,6 +1414,8 @@ magic_spells.set("AEFWV", function cast(attacker, defender, values) {
     "Arcane Crash",
     values
   );
+  defender.hp -= dmg;
+  update_rune_count();
 });
 magic_spells.set("AEEV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Battle Dance", values);
