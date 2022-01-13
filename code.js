@@ -452,6 +452,49 @@ rune_buttons.forEach(function (button, index) {
   });
 });
 
+function update_changed_stats() {
+  values = status_effects_start_calc(monster1, monster2);
+  document.getElementById("monster1_stats").innerHTML =
+    "POW: " +
+    values.get("pow1") +
+    ", DEF: " +
+    values.get("def1") +
+    ", MAG: " +
+    values.get("mag1") +
+    "<br>AGI: " +
+    values.get("agi1") +
+    ", SPD: " +
+    values.get("spd1") +
+    "<br>air: " +
+    values.get("air1")+
+    ", earth: " +
+    values.get("earth1")+
+    ", fire: " +
+    values.get("fire1")+
+    ", water: " +
+    values.get("water1");
+  document.getElementById("monster2_stats").innerHTML =
+    "POW: " +
+    values.get("pow2") +
+    ", DEF: " +
+    values.get("def2") +
+    ", MAG: " +
+    values.get("mag2") +
+    "<br>AGI: " +
+    values.get("agi2") +
+    ", SPD: " +
+    values.get("spd2")+
+    "<br>air: " +
+    values.get("air2")+
+    ", earth: " +
+    values.get("earth2")+
+    ", fire: " +
+    values.get("fire2")+
+    ", water: " +
+    values.get("water2");
+}
+
+update_changed_stats();
 update_hp();
 update_status_effect();
 
@@ -501,25 +544,25 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
     switch (type) {
       case "A":
         dmg = dmg * (1 + (values.get("air1") - values.get("air2")) / 4);
-        if(values.get("aeroveil2")){
+        if (values.get("aeroveil2")) {
           dmg = dmg * 0.8;
         }
         break;
       case "E":
         dmg = dmg * (1 + (values.get("earth1") - values.get("earth2")) / 4);
-        if(values.get("gaiaveil2")){
+        if (values.get("gaiaveil2")) {
           dmg = dmg * 0.8;
         }
         break;
       case "F":
         dmg = dmg * (1 + (values.get("fire1") - values.get("fire2")) / 4);
-        if(values.get("pyroveil2")){
+        if (values.get("pyroveil2")) {
           dmg = dmg * 0.8;
         }
         break;
       case "W":
         dmg = dmg * (1 + (values.get("water1") - values.get("water2")) / 4);
-        if(values.get("hydroveil2")){
+        if (values.get("hydroveil2")) {
           dmg = dmg * 0.8;
         }
         break;
@@ -578,6 +621,7 @@ function status_effects_end_calc(mon) {
   update_status_effect();
   update_hp();
   update_stats();
+  update_changed_stats();
 }
 function status_effects_start_calc(attacker, defender) {
   tmp_pow1 = 1;
