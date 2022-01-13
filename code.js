@@ -220,7 +220,8 @@ function update() {
 
   document.getElementById("monster1_name").innerHTML = monster1.name;
   document.getElementById("monster2_name").innerHTML = monster2.name;
-  update_changed_stats()
+  update_hp();
+  update_changed_stats();
 }
 
 function update_runes() {
@@ -469,11 +470,11 @@ function update_changed_stats() {
     ", SPD: " +
     values.get("spd1") +
     "<br>air: " +
-    values.get("air1")+
+    values.get("air1") +
     ", earth: " +
-    values.get("earth1")+
+    values.get("earth1") +
     ", fire: " +
-    values.get("fire1")+
+    values.get("fire1") +
     ", water: " +
     values.get("water1");
   document.getElementById("monster2_stats").innerHTML =
@@ -486,13 +487,13 @@ function update_changed_stats() {
     "<br>AGI: " +
     values.get("agi2") +
     ", SPD: " +
-    values.get("spd2")+
+    values.get("spd2") +
     "<br>air: " +
-    values.get("air2")+
+    values.get("air2") +
     ", earth: " +
-    values.get("earth2")+
+    values.get("earth2") +
     ", fire: " +
-    values.get("fire2")+
+    values.get("fire2") +
     ", water: " +
     values.get("water2");
 }
@@ -500,7 +501,7 @@ function update_changed_stats() {
 update_changed_stats();
 update_hp();
 update_status_effect();
-turn_color()
+turn_color();
 
 //////////////////////////////////////////////ignore these too
 
@@ -547,25 +548,25 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
     dmg = (dmg * values.get("mag1")) / values.get("mag2");
     switch (type) {
       case "A":
-        dmg = dmg * (values.get("air1")/values.get("air2"));
+        dmg = dmg * (values.get("air1") / values.get("air2"));
         if (values.get("aeroveil2")) {
           dmg = dmg * 0.8;
         }
         break;
       case "E":
-        dmg = dmg * (values.get("earth1")/values.get("earth2"));
+        dmg = dmg * (values.get("earth1") / values.get("earth2"));
         if (values.get("gaiaveil2")) {
           dmg = dmg * 0.8;
         }
         break;
       case "F":
-        dmg = dmg * (values.get("fire1")/values.get("fire2"));
+        dmg = dmg * (values.get("fire1") / values.get("fire2"));
         if (values.get("pyroveil2")) {
           dmg = dmg * 0.8;
         }
         break;
       case "W":
-        dmg = dmg * (values.get("water1")/values.get("water2"));
+        dmg = dmg * (values.get("water1") / values.get("water2"));
         if (values.get("hydroveil2")) {
           dmg = dmg * 0.8;
         }
@@ -575,13 +576,9 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
       default:
         break;
     }
-    dmg = Math.round(dmg)
+    dmg = Math.round(dmg);
     tmp.innerHTML =
-      attacker.name +
-      " uses " +
-      spell_name +
-      " which hits for " +
-      dmg;
+      attacker.name + " uses " + spell_name + " which hits for " + dmg;
   }
   output.appendChild(tmp);
   return dmg;
@@ -1033,8 +1030,8 @@ function show_log() {
   }
 }
 
-function turn_color(){
-  if(turn){
+function turn_color() {
+  if (turn) {
     document.getElementById("monster1_name").style.color = "orange";
     document.getElementById("monster2_name").style.color = "black";
   } else {
