@@ -36,6 +36,7 @@ class Status_Effect {
   use(x) {
     this.duration--;
   }
+  print(x) {}
 }
 class Burn extends Status_Effect {
   name = "burn";
@@ -54,6 +55,16 @@ class Burn extends Status_Effect {
       tmp.style.color = "blue";
     }
     tmp.innerHTML = x.name + " takes  " + this.damage + " burn dmg";
+    output.appendChild(tmp);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " burns the enemy";
     output.appendChild(tmp);
   }
 }
@@ -76,11 +87,31 @@ class Poison extends Status_Effect {
     tmp.innerHTML = x.name + " takes  " + this.damage + " poison dmg";
     output.appendChild(tmp);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " poisons the enemy";
+    output.appendChild(tmp);
+  }
 }
 class Freeze_Stun extends Status_Effect {
   name = "freeze_stun";
   use(x) {
     super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " locks the enemy's movement";
+    output.appendChild(tmp);
   }
 }
 class Lucky extends Status_Effect {
@@ -88,11 +119,31 @@ class Lucky extends Status_Effect {
   use(x) {
     super.use(x);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " feels lucky";
+    output.appendChild(tmp);
+  }
 }
 class Misfortune extends Status_Effect {
   name = "misfortune";
   use(x) {
     super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " feels unlucky";
+    output.appendChild(tmp);
   }
 }
 class Enfeeble extends Status_Effect {
@@ -104,6 +155,16 @@ class Enfeeble extends Status_Effect {
   use(x) {
     super.use(x);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " enfeebles the enemy";
+    output.appendChild(tmp);
+  }
 }
 class Guard_Break extends Status_Effect {
   name = "guard_break";
@@ -113,6 +174,16 @@ class Guard_Break extends Status_Effect {
   }
   use(x) {
     super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " breaks the enemy's guard";
+    output.appendChild(tmp);
   }
 }
 class Blind extends Status_Effect {
@@ -124,6 +195,16 @@ class Blind extends Status_Effect {
   use(x) {
     super.use(x);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " blinds the enemy";
+    output.appendChild(tmp);
+  }
 }
 class Slow extends Status_Effect {
   name = "slow";
@@ -133,6 +214,16 @@ class Slow extends Status_Effect {
   }
   use(x) {
     super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " slows the enemy";
+    output.appendChild(tmp);
   }
 }
 class Sap extends Status_Effect {
@@ -144,11 +235,31 @@ class Sap extends Status_Effect {
   use(x) {
     super.use(x);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " saps the enemy";
+    output.appendChild(tmp);
+  }
 }
 class Silence extends Status_Effect {
   name = "silence";
   use(x) {
     super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " silences the enemy";
+    output.appendChild(tmp);
   }
 }
 class Clone extends Status_Effect {
@@ -160,12 +271,32 @@ class Clone extends Status_Effect {
   use(x) {
     super.use(x);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " summons a clone";
+    output.appendChild(tmp);
+  }
 }
 class Parry extends Status_Effect {
   name = "parry";
   chance = 60;
   use(x) {
     super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " takes a parry stance";
+    output.appendChild(tmp);
   }
 }
 class Counter extends Status_Effect {
@@ -174,11 +305,31 @@ class Counter extends Status_Effect {
   use(x) {
     super.use(x);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " takes a counter stance";
+    output.appendChild(tmp);
+  }
 }
 class Protection extends Status_Effect {
   name = "protection";
   use(x) {
     super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " is protected";
+    output.appendChild(tmp);
   }
 }
 class Blessing extends Status_Effect {
@@ -200,6 +351,16 @@ class Blessing extends Status_Effect {
     tmp.innerHTML = x.name + " heals for  " + this.heal;
     output.appendChild(tmp);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " feels blessed";
+    output.appendChild(tmp);
+  }
 }
 class Adrenaline extends Status_Effect {
   name = "adrenaline";
@@ -209,6 +370,16 @@ class Adrenaline extends Status_Effect {
   }
   use(x) {
     super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " is pumped with adrenaline";
+    output.appendChild(tmp);
   }
 }
 class Guard_Up extends Status_Effect {
@@ -220,6 +391,16 @@ class Guard_Up extends Status_Effect {
   use(x) {
     super.use(x);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " has their guard up";
+    output.appendChild(tmp);
+  }
 }
 class Keen extends Status_Effect {
   name = "keen";
@@ -229,6 +410,16 @@ class Keen extends Status_Effect {
   }
   use(x) {
     super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " is keen";
+    output.appendChild(tmp);
   }
 }
 class Bruised extends Status_Effect {
@@ -240,6 +431,16 @@ class Bruised extends Status_Effect {
   use(x) {
     super.use(x);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " bruises the enemy";
+    output.appendChild(tmp);
+  }
 }
 class Battle_Dance extends Status_Effect {
   name = "battle_dance";
@@ -250,6 +451,16 @@ class Battle_Dance extends Status_Effect {
   }
   use(x) {
     super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " is in a fervorous battle dance";
+    output.appendChild(tmp);
   }
 }
 class Voids_Call extends Status_Effect {
@@ -288,6 +499,16 @@ class Voids_Call extends Status_Effect {
       update_rune_count();
     }
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " summons a mysterious void object";
+    output.appendChild(tmp);
+  }
 }
 
 class Reverse_Of_Arms extends Status_Effect {
@@ -296,15 +517,45 @@ class Reverse_Of_Arms extends Status_Effect {
   use(x) {
     super.use(x);
   }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " swaps their stance";
+    output.appendChild(tmp);
+  }
 }
 
 class Rollout extends Status_Effect {
   name = "rollout";
   purgeable = false;
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " is gaining momentum";
+    output.appendChild(tmp);
+  }
 }
 
 class Ghostly_Wounds extends Status_Effect {
   name = "ghostly_wounds";
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " inflicts ghostly wounds";
+    output.appendChild(tmp);
+  }
 }
 
 class Guard_Crush extends Status_Effect {
@@ -330,34 +581,114 @@ class Guard_Crush extends Status_Effect {
 
 class Aeroveil extends Status_Effect {
   name = "aeroveil";
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " is shielded from air damage";
+    output.appendChild(tmp);
+  }
 }
 
 class Gaiaveil extends Status_Effect {
   name = "gaiaveil";
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " is shielded from earth damage";
+    output.appendChild(tmp);
+  }
 }
 
 class Pyroveil extends Status_Effect {
   name = "pyroveil";
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " is shielded from fire damage";
+    output.appendChild(tmp);
+  }
 }
 
 class Hydroveil extends Status_Effect {
   name = "hydroveil";
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " is shielded from water damage";
+    output.appendChild(tmp);
+  }
 }
 
 class Aerosurge extends Status_Effect {
   name = "aerosurge";
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " surges with the power of the wind";
+    output.appendChild(tmp);
+  }
 }
 
 class Gaiasurge extends Status_Effect {
   name = "gaiasurge";
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " surges with the power of the earth";
+    output.appendChild(tmp);
+  }
 }
 
 class Pyrosurge extends Status_Effect {
   name = "pyrosurge";
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " surges with the power of the flames";
+    output.appendChild(tmp);
+  }
 }
 
 class Hydrosurge extends Status_Effect {
   name = "hydrosurge";
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " surges with the power of the water";
+    output.appendChild(tmp);
+  }
 }
 
 class Runic_Demise extends Status_Effect {
@@ -421,9 +752,9 @@ magic_spells.set("FFFF", function cast(attacker, defender, values) {
           1
         );
       }
-      defender.status_effects_end.push(
-        new Burn(burn_duration, Math.round(dmg * 0.1))
-      );
+      burn = new Burn(burn_duration, Math.round(dmg * 0.1));
+      burn.print(attacker);
+      defender.status_effects_end.push(burn);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -454,9 +785,9 @@ magic_spells.set("FFFFF", function cast(attacker, defender, values) {
           1
         );
       }
-      defender.status_effects_end.push(
-        new Burn(burn_duration, Math.round(dmg * 0.1))
-      );
+      burn = new Burn(burn_duration, Math.round(dmg * 0.1));
+      burn.print(attacker);
+      defender.status_effects_end.push(burn);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -618,7 +949,9 @@ magic_spells.set("EEEE", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, slow_chance)) {
-      defender.status_effects_stat.push(new Slow(slow_duration));
+      slow = new Slow(slow_duration);
+      slow.print(attacker);
+      defender.status_effects_stat.push(slow);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -641,7 +974,9 @@ magic_spells.set("EEEEE", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, stun_chance)) {
-      defender.status_effects_stat.push(new Freeze_Stun(stun_duration));
+      stun = new Freeze_Stun(stun_duration);
+      stun.print(attacker);
+      defender.status_effects_start.push(stun);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -672,9 +1007,9 @@ magic_spells.set("EEEFF", function cast(attacker, defender, values) {
           1
         );
       }
-      defender.status_effects_end.push(
-        new Burn(burn_duration, Math.round(dmg * 0.1))
-      );
+      burn = new Burn(burn_duration, Math.round(dmg * 0.1));
+      burn.print(attacker);
+      defender.status_effects_end.push(burn);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -718,7 +1053,9 @@ magic_spells.set("EEEFW", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, slow_chance)) {
-      defender.status_effects_stat.push(new Slow(slow_duration));
+      slow = new Slow(slow_duration);
+      slow.print(attacker);
+      defender.status_effects_stat.push(slow);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -734,7 +1071,9 @@ magic_spells.set("EEEFW", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, stun_chance)) {
-      defender.status_effects_start.push(new Freeze_Stun(stun_duration));
+      stun = new Freeze_Stun(stun_duration);
+      stun.print(attacker);
+      defender.status_effects_start.push(stun);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -778,7 +1117,9 @@ magic_spells.set("AEE", function cast(attacker, defender, values) {
   } else {
     spell_acc_dialogue(attacker);
   }
-  attacker.unpurgeable_effects_start.push(new Rollout(5));
+  rollout = new Rollout(5);
+  rollout.print(attacker);
+  attacker.unpurgeable_effects_start.push(rollout);
 });
 magic_spells.set("AFFV", function cast(attacker, defender, values) {
   min = 26;
@@ -796,46 +1137,64 @@ magic_spells.set("AFFV", function cast(attacker, defender, values) {
     defender.hp -= dmg;
     switch (get_random_int(5)) {
       case 0:
-        attacker.status_effects_stat.push(new Slow(3));
+        slow = new Slow(3);
+        attacker.status_effects_stat.push(slow);
         break;
       case 1:
-        attacker.status_effects_stat.push(new Sap(3));
+        sap = new Sap(3);
+        attacker.status_effects_stat.push(sap);
         break;
       case 2:
-        attacker.status_effects_stat.push(new Enfeeble(3));
+        enfeeble = new Enfeeble(3);
+        attacker.status_effects_stat.push(enfeeble);
         break;
       case 3:
-        attacker.status_effects_stat.push(new Guard_Break(3));
+        guard_break = new Guard_Break(3);
+        guard_break.print(attacker);
+        attacker.status_effects_stat.push(guard_break);
         break;
       case 4:
-        attacker.status_effects_stat.push(new Blind(3));
+        blind = new Blind(3);
+        attacker.status_effects_stat.push(blind);
         break;
       default:
         break;
     }
     switch (get_random_int(5)) {
       case 0:
-        attacker.status_effects_stat.push(new Slow(3));
+        slow = new Slow(3);
+        attacker.status_effects_stat.push(slow);
         break;
       case 1:
-        attacker.status_effects_stat.push(new Sap(3));
+        sap = new Sap(3);
+        attacker.status_effects_stat.push(sap);
         break;
       case 2:
-        attacker.status_effects_stat.push(new Enfeeble(3));
+        enfeeble = new Enfeeble(3);
+        attacker.status_effects_stat.push(enfeeble);
         break;
       case 3:
-        attacker.status_effects_stat.push(new Guard_Break(3));
+        guard_break = new Guard_Break(3);
+        attacker.status_effects_stat.push(guard_break);
         break;
       case 4:
-        attacker.status_effects_stat.push(new Blind(3));
+        blind = new Blind(3);
+        attacker.status_effects_stat.push(blind);
         break;
       default:
         break;
     }
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = attacker.name + " loses two stats";
+    output.appendChild(tmp);
   } else {
     spell_acc_dialogue(attacker);
   }
-  
 });
 magic_spells.set("AWW", function cast(attacker, defender, values) {
   min = 6;
@@ -854,7 +1213,9 @@ magic_spells.set("AWW", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, freeze_chance)) {
-      defender.status_effects_start.push(new Freeze_Stun(freeze_duration));
+      stun = new Freeze_Stun(freeze_duration);
+      stun.print(attacker);
+      defender.status_effects_start.push(stun);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -870,7 +1231,9 @@ magic_spells.set("AAWWW", function cast(attacker, defender, values) {
     "Deep Chill",
     values
   );
-  defender.status_effects_start.push(new Freeze_Stun(freeze_duration));
+  stun = new Freeze_Stun(freeze_duration);
+  stun.print(attacker);
+  defender.status_effects_start.push(stun);
 });
 magic_spells.set("FFW", function cast(attacker, defender, values) {
   min = 5;
@@ -889,7 +1252,9 @@ magic_spells.set("FFW", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, blind_chance)) {
-      defender.status_effects_stat.push(new Blind(blind_duration));
+      blind = new Blind(blind_duration);
+      blind.print(attacker);
+      defender.status_effects_stat.push(blind);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -905,7 +1270,9 @@ magic_spells.set("AAV", function cast(attacker, defender, values) {
     "Shadow Stream",
     values
   );
-  defender.status_effects_stat.push(new Blind(blind_duration));
+  blind = new Blind(blind_duration);
+  blind.print(attacker);
+  defender.status_effects_stat.push(blind);
 });
 magic_spells.set("AAAEE", function cast(attacker, defender, values) {
   min = 10;
@@ -913,7 +1280,9 @@ magic_spells.set("AAAEE", function cast(attacker, defender, values) {
   acc = 60;
   slow_chance = 100;
   slow_duration = 3;
-  defender.status_effects_stat.push(new Slow(slow_duration));
+  slow = new Slow(slow_duration);
+  slow.print(attacker);
+  defender.status_effects_stat.push(slow);
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -925,7 +1294,9 @@ magic_spells.set("AAAEE", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, slow_chance)) {
-      defender.status_effects_stat.push(new Slow(slow_duration));
+      slow = new Slow(slow_duration);
+      slow.print(attacker);
+      defender.status_effects_stat.push(slow);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -938,7 +1309,9 @@ magic_spells.set("FFFV", function cast(attacker, defender, values) {
       !defender.status_effects_start.filter((e) => e.name === "ghostly_wounds")
         .length > 0
     ) {
-      defender.status_effects_end.push(new Ghostly_Wounds(2));
+      gw = new Ghostly_Wounds(2);
+      gw.print(attacker);
+      defender.status_effects_end.push(gw);
     }
   }
   magic_damage_calc(
@@ -970,16 +1343,24 @@ magic_spells.set("EFFV", function cast(attacker, defender, values) {
 magic_spells.set("AAAV", function cast(attacker, defender, values) {
   switch (get_random_int(4)) {
     case 0:
-      attacker.status_effects_start.push(new Lucky(3));
+      luck = new Lucky(3);
+      luck.print(attacker);
+      attacker.status_effects_start.push(luck);
       break;
     case 1:
-      attacker.status_effects_start.push(new Misfortune(3));
+      misfortune = new Misfortune(3);
+      misfortune.print(attacker);
+      attacker.status_effects_start.push(misfortune);
       break;
     case 2:
-      defender.status_effects_start.push(new Lucky(3));
+      luck = new Lucky(3);
+      luck.print(defender);
+      defender.status_effects_start.push(luck);
       break;
     case 3:
-      defender.status_effects_start.push(new Misfortune(3));
+      misfortune = new Misfortune(3);
+      misfortune.print(defender);
+      defender.status_effects_start.push(misfortune);
       break;
     default:
       break;
@@ -987,7 +1368,9 @@ magic_spells.set("AAAV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Gamble", values);
 });
 magic_spells.set("AVVVV", function cast(attacker, defender, values) {
-  attacker.status_effects_start.push(new Lucky(3));
+  luck = new Lucky(3);
+  luck.print(attacker);
+  attacker.status_effects_start.push(luck);
   attacker.hp -= Math.floor(attacker.vit / 10);
   magic_damage_calc(attacker, defender, 0, "V", "Dark Bribe", values);
 });
@@ -1008,7 +1391,9 @@ magic_spells.set("AFF", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, stun_chance)) {
-      defender.status_effects_start.push(new Freeze_Stun(stun_duration));
+      stun = new Freeze_Stun(stun_duration);
+      stun.print(attacker);
+      defender.status_effects_start.push(stun);
     }
   } else {
     spell_acc_dialogue(attacker);
@@ -1180,7 +1565,9 @@ magic_spells.set("AAAFF", function cast(attacker, defender, values) {
     }
   }
   if (c >= 4) {
-    defender.status_effects_start.push(new Enfeeble(3));
+    enfeeble = new Enfeeble(3);
+    enfeeble.print(attacker);
+    defender.status_effects_start.push(enfeeble);
   }
   if (total_dmg > 0) {
     var tmp = document.createElement("p");
@@ -1218,7 +1605,9 @@ magic_spells.set("AAFFF", function cast(attacker, defender, values) {
     }
   }
   if (c >= 4) {
-    defender.status_effects_start.push(new Bruised(3));
+    bruised = new Bruised(3);
+    bruised.print(attacker);
+    defender.status_effects_start.push(bruised);
   }
   if (total_dmg > 0) {
     var tmp = document.createElement("p");
@@ -1233,35 +1622,51 @@ magic_spells.set("AAFFF", function cast(attacker, defender, values) {
 });
 magic_spells.set("AVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "A", "Aeroveil", values);
-  attacker.status_effects_start.push(new Aeroveil(4));
+  veil = new Aeroveil(4);
+  veil.print(attacker);
+  attacker.status_effects_start.push(veil);
 });
 magic_spells.set("EVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "E", "Gaiaveil", values);
-  attacker.status_effects_start.push(new Gaiaveil(4));
+  veil = new Gaiaveil(4);
+  veil.print(attacker);
+  attacker.status_effects_start.push(veil);
 });
 magic_spells.set("FVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "F", "Pyroveil", values);
-  attacker.status_effects_start.push(new Pyroveil(4));
+  veil = new Pyroveil(4);
+  veil.print(attacker);
+  attacker.status_effects_start.push(veil);
 });
 magic_spells.set("WVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "W", "Hydroveil", values);
-  attacker.status_effects_start.push(new Hydroveil(4));
+  veil = new Hydroveil(4);
+  veil.print(attacker);
+  attacker.status_effects_start.push(veil);
 });
 magic_spells.set("AAVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "A", "Aerosurge", values);
-  attacker.status_effects_start.push(new Aerosurge(4));
+  surge = new Aerosurge(4);
+  surge.print(attacker);
+  attacker.status_effects_start.push(surge);
 });
 magic_spells.set("EEVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "E", "Gaiasurge", values);
-  attacker.status_effects_start.push(new Gaiasurge(4));
+  surge = new Gaiasurge(4);
+  surge.print(attacker);
+  attacker.status_effects_start.push(surge);
 });
 magic_spells.set("FFVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "F", "Pyrosurge", values);
-  attacker.status_effects_start.push(new Pyrosurge(4));
+  surge = new Pyrosurge(4);
+  surge.print(attacker);
+  attacker.status_effects_start.push(surge);
 });
 magic_spells.set("WWVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "W", "Hydrosurge", values);
-  attacker.status_effects_start.push(new Hydrosurge(4));
+  surge = new Hydrosurge(4);
+  surge.print(attacker);
+  attacker.status_effects_start.push(surge);
 });
 magic_spells.set("WWWWV", function cast(attacker, defender, values) {
   attacker.status_effects_start = [];
@@ -1285,7 +1690,9 @@ magic_spells.set("WWV", function cast(attacker, defender, values) {
 magic_spells.set("AWV", function cast(attacker, defender, values) {
   blessing_duration = 3;
   heal = 5;
-  defender.status_effects_end.push(new Blessing(blessing_duration, heal));
+  bless = new Blessing(blessing_duration, heal);
+  bless.print(attacker);
+  defender.status_effects_end.push(bless);
   magic_damage_calc(
     attacker,
     defender,
@@ -1371,7 +1778,9 @@ magic_spells.set("AVVV", function cast(attacker, defender, values) {
     attacker.unpurgeable_effects_end.filter((e) => e.name === "voids_call")
       .length == 0
   ) {
-    attacker.unpurgeable_effects_end.push(new Voids_Call(999));
+    vc = new Voids_Call(999);
+    vc.print(attacker);
+    attacker.unpurgeable_effects_end.push(vc);
   }
 });
 magic_spells.set("AFV", function cast(attacker, defender, values) {
@@ -1388,11 +1797,15 @@ magic_spells.set("AFV", function cast(attacker, defender, values) {
 });
 magic_spells.set("FWV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Reverse of Arms", values);
-  attacker.unpurgeable_effects_start.push(new Reverse_Of_Arms(999));
+  roa = new Reverse_Of_Arms(999);
+  roa.print(attacker);
+  attacker.unpurgeable_effects_start.push(roa);
 });
 magic_spells.set("EFVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Sougenmu", values);
-  attacker.status_effects_start.push(new Clone(4));
+  clone = new Clone(4);
+  clone.print(attacker);
+  attacker.status_effects_start.push(clone);
 });
 magic_spells.set("AEFWV", function cast(attacker, defender, values) {
   num_runes =
@@ -1419,31 +1832,45 @@ magic_spells.set("AEFWV", function cast(attacker, defender, values) {
 });
 magic_spells.set("AEEV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Battle Dance", values);
-  attacker.unpurgeable_effects_start.push(new Battle_Dance(4));
+  bd = new Battle_Dance(4);
+  bd.print(attacker);
+  attacker.unpurgeable_effects_start.push(bd);
 });
 magic_spells.set("EFV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Adrenal Surge", values);
-  attacker.status_effects_stat.push(new Adrenaline(4));
+  ad = new Adrenaline(4);
+  ad.print(attacker);
+  attacker.status_effects_stat.push(ad);
 });
 magic_spells.set("VVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Magical Dampener", values);
-  defender.status_effects_stat.push(new Sap(4));
+  tmp = new Sap(4);
+  tmp.print(attacker);
+  defender.status_effects_stat.push(tmp);
 });
 magic_spells.set("VVVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Quiet Hour", values);
-  defender.status_effects_start.push(new Silence(4));
+  tmp = new Silence(4);
+  tmp.print(attacker);
+  defender.status_effects_start.push(tmp);
 });
 magic_spells.set("AAE", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "E", "Gaia Parry", values);
-  attacker.status_effects_start.push(new Parry(4));
+  tmp = new Parry(4);
+  tmp.print(attacker);
+  defender.status_effects_start.push(tmp);
 });
 magic_spells.set("AEEE", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "E", "Gaia Counter", values);
-  attacker.status_effects_start.push(new Counter(4));
+  tmp = new Counter(4);
+  tmp.print(attacker);
+  defender.status_effects_start.push(tmp);
 });
 magic_spells.set("AEVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Hard Read", values);
-  attacker.status_effects_start.push(new Keen(4));
+  tmp = new Keen(4);
+  tmp.print(attacker);
+  defender.status_effects_start.push(tmp);
 });
 /*magic_spells.set("AAF", function cast(attacker, defender, values) {
   min = 4;

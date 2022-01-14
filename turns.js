@@ -9,8 +9,15 @@ function attack_helper(attacker, defender) {
   values = status_effects_start_calc(attacker, defender);
 
   acc_bool = false; //for lucky testing tbd
+  luck = values.get("luck1") - values.get("luck2");
 
-  if (!get_acc_check(values.get("agi1"), values.get("agi2"), base_acc)) {
+  for (i = 0; i < luck + 1; i++) {
+    acc_bool =
+      acc_bool ||
+      get_acc_check(values.get("agi1"), values.get("agi2"), base_acc);
+  }
+
+  if (!acc_bool) {
     var tmp = document.createElement("p");
     if (turn) {
       tmp.style.color = "green";
@@ -45,6 +52,13 @@ function attack_helper(attacker, defender) {
 
     base_dmg = get_random_range(dmg_min, dmg_max);
     dmg = Math.round((base_dmg * values.get("pow1")) / values.get("def2"));
+    for (i = 0; i < luck; i++) {
+      base_dmg = get_random_range(dmg_min, dmg_max);
+      dmg = Math.max(
+        dmg,
+        Math.round((base_dmg * values.get("pow1")) / values.get("def2"))
+      );
+    }
 
     if (values.get("counter2")) {
       if (get_acc_check(0, 0, 20)) {
@@ -113,7 +127,7 @@ function attack() {
 function magic_helper(attacker, defender, cur) {
   values = status_effects_start_calc(attacker, defender);
 
-  if(values.get("silence1")){
+  if (values.get("silence1")) {
     tmp = document.createElement("p");
     tmp.style.color = "red";
     tmp.innerHTML = attacker.name + " is silenced";
@@ -175,7 +189,6 @@ function magic() {
   }
   update_hp();
 
-  
   turn_color();
   cull_output();
 }
@@ -221,7 +234,7 @@ function pass_helper(mon, defender) {
 
 function pass() {
   if (turn) {
-    pass_helper(monster1 , monster2);
+    pass_helper(monster1, monster2);
   } else {
     pass_helper(monster2, monster1);
   }

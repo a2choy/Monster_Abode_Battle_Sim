@@ -993,7 +993,7 @@ function status_effects_start_calc(attacker, defender) {
   if (
     defender.unpurgeable_effects_start.filter(
       (e) => e.name === "reverse_of_arms"
-    ).length >= 1
+    ).length%2 == 1
   ) {
     tmp = tmp_pow2;
     tmp_pow2 = tmp_def2;
@@ -1083,7 +1083,7 @@ function get_runes(mon, n, p) {
 }
 
 function cull_output() {
-  for (i = 0; i < output.childNodes.length - 6; i++) {
+  for (i = 0; i < output.childNodes.length - 8; i++) {
     output.childNodes[i].style.display = "none";
   }
 }
