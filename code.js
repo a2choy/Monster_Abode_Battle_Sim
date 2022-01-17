@@ -527,13 +527,21 @@ function get_random_range(min, max) {
   return get_random_int(max - min + 1) + min;
 }
 
-function get_acc_check(attacker, defender, base_acc) {
-  acc = (attacker - defender) / 2;
+function get_acc_check(agi1, agi2, base_acc) {
+  acc = (agi1 - agi2) / 2;
   acc = base_acc + acc;
   acc = Math.round(acc);
   acc_check = get_random_int(100);
   return acc_check < acc;
 }
+
+function get_crit_check(spd1, keen1){
+  crit = 9 + spd1 * 0.2;
+  if(keen1) {
+    crit += 11;
+  }
+  return get_random_int(100) < crit;
+} 
 
 function spell_acc_dialogue(attacker) {
   var tmp = document.createElement("p");
@@ -566,24 +574,28 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
         if (values.get("aeroveil2")) {
           dmg = dmg * 0.7;
         }
+        dmg = dmg * values.get("air1") / values.get("air2");
         break;
       case "E":
         dmg = dmg * (values.get("earth1") / values.get("earth2"));
         if (values.get("gaiaveil2")) {
           dmg = dmg * 0.7;
         }
+        dmg = dmg * values.get("earth1") / values.get("earth2");
         break;
       case "F":
         dmg = dmg * (values.get("fire1") / values.get("fire2"));
         if (values.get("pyroveil2")) {
           dmg = dmg * 0.7;
         }
+        dmg = dmg * values.get("fire1") / values.get("fire2");
         break;
       case "W":
         dmg = dmg * (values.get("water1") / values.get("water2"));
         if (values.get("hydroveil2")) {
           dmg = dmg * 0.7;
         }
+        dmg = dmg * values.get("water1") / values.get("water2");
         break;
       case "V":
         break;
@@ -606,7 +618,7 @@ function status_effects_end_calc(mon, defender) {
       0
     ) {
       if (mon.status_effects_end[i].name == "burn") {
-        mon.status_effects_end[i].damage *= 2;
+        mon.status_effects_end[i].ghostly_wounds = true;
       }
     }
     mon.status_effects_end[i].use(mon);

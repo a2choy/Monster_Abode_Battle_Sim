@@ -35,6 +35,8 @@ function attack_helper(attacker, defender) {
     //***************************************************************//
 
     //dmg = Math.round(dmg);
+    crit = get_crit_check(values.get("spd1"), values.get("keen1"));
+
     if (values.get("parry2")) {
       if (get_acc_check(0, 0, 60)) {
         var tmp = document.createElement("p");
@@ -59,6 +61,9 @@ function attack_helper(attacker, defender) {
         Math.round((base_dmg * values.get("pow1")) / values.get("def2"))
       );
     }
+    if(crit){
+      dmg *= 2;
+    }
 
     if (values.get("counter2")) {
       if (get_acc_check(0, 0, 20)) {
@@ -68,8 +73,13 @@ function attack_helper(attacker, defender) {
         } else {
           tmp.style.color = "blue";
         }
-        tmp.innerHTML =
-          attacker.name + "'s attack was countered for " + dmg + " dmg<br>";
+        if(crit){
+          tmp.innerHTML =
+            attacker.name + "'s attack was critically countered for " + dmg + " dmg<br>";
+        } else {
+          tmp.innerHTML =
+            attacker.name + "'s attack was countered for " + dmg + " dmg<br>";
+        }
         output.appendChild(tmp);
         attacker.hp -= dmg;
         update_hp();
@@ -90,7 +100,12 @@ function attack_helper(attacker, defender) {
     } else {
       tmp.style.color = "blue";
     }
-    tmp_text = attacker.name + " hits for " + dmg + " dmg<br>";
+    if(crit){
+      tmp_text =
+        attacker.name + " critically hits for " + dmg + " dmg<br>";
+    } else {
+      tmp_text = attacker.name + " hits for " + dmg + " dmg<br>";
+    }
     clone_dmg = Math.round(dmg * (0.4 * values.get("clone1")));
     if (values.get("clone1") > 0) {
       tmp_text +=

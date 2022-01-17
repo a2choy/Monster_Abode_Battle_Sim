@@ -26,6 +26,8 @@ class Monster {
   }
 }
 
+
+
 class Status_Effect {
   constructor(duration) {
     this.name = "default";
@@ -41,20 +43,25 @@ class Status_Effect {
 class Burn extends Status_Effect {
   name = "burn";
   start_of_turn = false;
+  ghostly_wounds = false;
   constructor(duration, damage) {
     super(duration);
     this.damage = damage;
   }
   use(x) {
     super.use(x);
-    x.hp -= this.damage;
+    let tmp_dmg = this.damage;
+    if(this.ghostly_wounds){
+      tmp_dmg *= 2;
+    }
+    x.hp -= tmp_dmg;
     var tmp = document.createElement("p");
     if (turn) {
       tmp.style.color = "green";
     } else {
       tmp.style.color = "blue";
     }
-    tmp.innerHTML = x.name + " takes  " + this.damage + " burn dmg";
+    tmp.innerHTML = x.name + " takes  " + tmp_dmg + " burn dmg";
     output.appendChild(tmp);
   }
   print(x) {
