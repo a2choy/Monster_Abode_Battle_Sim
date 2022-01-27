@@ -26,8 +26,6 @@ class Monster {
   }
 }
 
-
-
 class Status_Effect {
   constructor(duration) {
     this.name = "default";
@@ -44,14 +42,14 @@ class Burn extends Status_Effect {
   name = "burn";
   start_of_turn = false;
   ghostly_wounds = false;
-  constructor(duration, damage) {
-    super(duration);
+  constructor(damage) {
+    super(2);
     this.damage = damage;
   }
   use(x) {
     super.use(x);
     let tmp_dmg = this.damage;
-    if(this.ghostly_wounds){
+    if (this.ghostly_wounds) {
       tmp_dmg *= 2;
     }
     x.hp -= tmp_dmg;
@@ -78,8 +76,8 @@ class Burn extends Status_Effect {
 class Poison extends Status_Effect {
   name = "poison";
   start_of_turn = false;
-  constructor(duration, damage) {
-    super(duration);
+  constructor(damage) {
+    super(2);
     this.damage = damage;
   }
   use(x) {
@@ -105,8 +103,11 @@ class Poison extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-class Freeze_Stun extends Status_Effect {
-  name = "freeze_stun";
+class Freeze extends Status_Effect {
+  name = "freeze";
+  constructor() {
+    super(1);
+  }
   use(x) {
     super.use(x);
   }
@@ -117,12 +118,34 @@ class Freeze_Stun extends Status_Effect {
     } else {
       tmp.style.color = "blue";
     }
-    tmp.innerHTML = x.name + " locks the enemy's movement";
+    tmp.innerHTML = x.name + " freezes the enemy";
+    output.appendChild(tmp);
+  }
+}
+class Stun extends Status_Effect {
+  name = "stun";
+  constructor() {
+    super(1);
+  }
+  use(x) {
+    super.use(x);
+  }
+  print(x) {
+    var tmp = document.createElement("p");
+    if (turn) {
+      tmp.style.color = "green";
+    } else {
+      tmp.style.color = "blue";
+    }
+    tmp.innerHTML = x.name + " stuns the enemy";
     output.appendChild(tmp);
   }
 }
 class Lucky extends Status_Effect {
   name = "lucky";
+  constructor() {
+    super(3);
+  }
   use(x) {
     super.use(x);
   }
@@ -139,6 +162,9 @@ class Lucky extends Status_Effect {
 }
 class Misfortune extends Status_Effect {
   name = "misfortune";
+  constructor() {
+    super(3);
+  }
   use(x) {
     super.use(x);
   }
@@ -155,8 +181,8 @@ class Misfortune extends Status_Effect {
 }
 class Enfeeble extends Status_Effect {
   name = "enfeeble";
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(3);
     this.change = 25;
   }
   use(x) {
@@ -175,8 +201,8 @@ class Enfeeble extends Status_Effect {
 }
 class Guard_Break extends Status_Effect {
   name = "guard_break";
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(3);
     this.change = 25;
   }
   use(x) {
@@ -195,8 +221,8 @@ class Guard_Break extends Status_Effect {
 }
 class Blind extends Status_Effect {
   name = "blind";
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(3);
     this.change = 25;
   }
   use(x) {
@@ -215,8 +241,8 @@ class Blind extends Status_Effect {
 }
 class Slow extends Status_Effect {
   name = "slow";
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(3);
     this.change = 25;
   }
   use(x) {
@@ -235,8 +261,8 @@ class Slow extends Status_Effect {
 }
 class Sap extends Status_Effect {
   name = "sap";
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(3);
     this.change = 25;
   }
   use(x) {
@@ -255,6 +281,9 @@ class Sap extends Status_Effect {
 }
 class Silence extends Status_Effect {
   name = "silence";
+  constructor() {
+    super(2);
+  }
   use(x) {
     super.use(x);
   }
@@ -272,8 +301,8 @@ class Silence extends Status_Effect {
 class Clone extends Status_Effect {
   name = "clone";
   dmg = 40;
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(2);
   }
   use(x) {
     super.use(x);
@@ -292,6 +321,9 @@ class Clone extends Status_Effect {
 class Parry extends Status_Effect {
   name = "parry";
   chance = 60;
+  constructor() {
+    super(3);
+  }
   use(x) {
     super.use(x);
   }
@@ -309,6 +341,10 @@ class Parry extends Status_Effect {
 class Counter extends Status_Effect {
   name = "counter";
   chance = 20;
+  dmg = 60;
+  constructor() {
+    super(2);
+  }
   use(x) {
     super.use(x);
   }
@@ -342,8 +378,8 @@ class Protection extends Status_Effect {
 class Blessing extends Status_Effect {
   name = "blessing";
   start_of_turn = false;
-  constructor(duration, heal) {
-    super(duration);
+  constructor(heal) {
+    super(3);
     this.heal = heal;
   }
   use(x) {
@@ -371,8 +407,8 @@ class Blessing extends Status_Effect {
 }
 class Adrenaline extends Status_Effect {
   name = "adrenaline";
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(3);
     this.change = 25;
   }
   use(x) {
@@ -391,8 +427,8 @@ class Adrenaline extends Status_Effect {
 }
 class Guard_Up extends Status_Effect {
   name = "guard_up";
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(3);
     this.change = 25;
   }
   use(x) {
@@ -411,8 +447,8 @@ class Guard_Up extends Status_Effect {
 }
 class Keen extends Status_Effect {
   name = "keen";
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(3);
     this.change = 25;
   }
   use(x) {
@@ -431,8 +467,8 @@ class Keen extends Status_Effect {
 }
 class Bruised extends Status_Effect {
   name = "bruised";
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(3);
     this.change = 25;
   }
   use(x) {
@@ -452,8 +488,8 @@ class Bruised extends Status_Effect {
 class Battle_Dance extends Status_Effect {
   name = "battle_dance";
   purgeable = false;
-  constructor(duration) {
-    super(duration);
+  constructor() {
+    super(3);
     this.change = 25;
   }
   use(x) {
@@ -478,6 +514,9 @@ class Voids_Call extends Status_Effect {
   damage_max = 6;
   recoil = 20;
   damage = 0;
+  constructor() {
+    super(999);
+  }
   use(x, y) {
     super.use(x);
     if (x.void == 0) {
@@ -521,6 +560,9 @@ class Voids_Call extends Status_Effect {
 class Reverse_Of_Arms extends Status_Effect {
   name = "reverse_of_arms";
   purgeable = false;
+  constructor() {
+    super(999);
+  }
   use(x) {
     super.use(x);
   }
@@ -539,6 +581,9 @@ class Reverse_Of_Arms extends Status_Effect {
 class Rollout extends Status_Effect {
   name = "rollout";
   purgeable = false;
+  constructor() {
+    super(5);
+  }
   print(x) {
     var tmp = document.createElement("p");
     if (turn) {
@@ -553,6 +598,9 @@ class Rollout extends Status_Effect {
 
 class Ghostly_Wounds extends Status_Effect {
   name = "ghostly_wounds";
+  constructor() {
+    super(4);
+  }
   print(x) {
     var tmp = document.createElement("p");
     if (turn) {
@@ -567,8 +615,8 @@ class Ghostly_Wounds extends Status_Effect {
 
 class Guard_Crush extends Status_Effect {
   name = "guard_crush";
-  constructor(duration, damage) {
-    super(duration);
+  constructor(damage) {
+    super(1);
     this.damage = damage;
   }
   use(x) {
@@ -588,6 +636,9 @@ class Guard_Crush extends Status_Effect {
 
 class Aeroveil extends Status_Effect {
   name = "aeroveil";
+  constructor() {
+    super(4);
+  }
   print(x) {
     var tmp = document.createElement("p");
     if (turn) {
@@ -602,6 +653,9 @@ class Aeroveil extends Status_Effect {
 
 class Gaiaveil extends Status_Effect {
   name = "gaiaveil";
+  constructor() {
+    super(4);
+  }
   print(x) {
     var tmp = document.createElement("p");
     if (turn) {
@@ -616,6 +670,9 @@ class Gaiaveil extends Status_Effect {
 
 class Pyroveil extends Status_Effect {
   name = "pyroveil";
+  constructor() {
+    super(4);
+  }
   print(x) {
     var tmp = document.createElement("p");
     if (turn) {
@@ -630,6 +687,9 @@ class Pyroveil extends Status_Effect {
 
 class Hydroveil extends Status_Effect {
   name = "hydroveil";
+  constructor() {
+    super(4);
+  }
   print(x) {
     var tmp = document.createElement("p");
     if (turn) {
@@ -644,6 +704,9 @@ class Hydroveil extends Status_Effect {
 
 class Aerosurge extends Status_Effect {
   name = "aerosurge";
+  constructor() {
+    super(3);
+  }
   print(x) {
     var tmp = document.createElement("p");
     if (turn) {
@@ -658,6 +721,9 @@ class Aerosurge extends Status_Effect {
 
 class Gaiasurge extends Status_Effect {
   name = "gaiasurge";
+  constructor() {
+    super(3);
+  }
   print(x) {
     var tmp = document.createElement("p");
     if (turn) {
@@ -672,6 +738,9 @@ class Gaiasurge extends Status_Effect {
 
 class Pyrosurge extends Status_Effect {
   name = "pyrosurge";
+  constructor() {
+    super(3);
+  }
   print(x) {
     var tmp = document.createElement("p");
     if (turn) {
@@ -686,6 +755,9 @@ class Pyrosurge extends Status_Effect {
 
 class Hydrosurge extends Status_Effect {
   name = "hydrosurge";
+  constructor() {
+    super(3);
+  }
   print(x) {
     var tmp = document.createElement("p");
     if (turn) {
@@ -700,6 +772,9 @@ class Hydrosurge extends Status_Effect {
 
 class Runic_Demise extends Status_Effect {
   name = "runic_demise";
+  constructor() {
+    super(2);
+  }
   use(x) {
     super.use(x);
     if (this.duration == 0) {
@@ -739,7 +814,6 @@ magic_spells.set("FFFF", function cast(attacker, defender, values) {
   max = 22;
   acc = 80;
   burn_chance = 20;
-  burn_duration = 3;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -759,7 +833,12 @@ magic_spells.set("FFFF", function cast(attacker, defender, values) {
           1
         );
       }
-      burn = new Burn(burn_duration, Math.round(dmg * 0.1));
+      burn = new Burn(Math.round(dmg * 0.1));
+      if (values.get("fire1") >= 1.5 && values.get("fire1") < 2.0) {
+        burn.duration++;
+      } else if (values.get("fire1") == 2.0) {
+        burn.duration += 2;
+      }
       burn.print(attacker);
       defender.status_effects_end.push(burn);
     }
@@ -772,7 +851,6 @@ magic_spells.set("FFFFF", function cast(attacker, defender, values) {
   max = 27;
   acc = 85;
   burn_chance = 60;
-  burn_duration = 3;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -792,7 +870,13 @@ magic_spells.set("FFFFF", function cast(attacker, defender, values) {
           1
         );
       }
-      burn = new Burn(burn_duration, Math.round(dmg * 0.1));
+      burn = new Burn(Math.round(dmg * 0.1));
+      burn.duration++;
+      if (values.get("fire1") >= 1.5 && values.get("fire1") < 2.0) {
+        burn.duration++;
+      } else if (values.get("fire1") >= 2.0) {
+        burn.duration += 2;
+      }
       burn.print(attacker);
       defender.status_effects_end.push(burn);
     }
@@ -944,7 +1028,6 @@ magic_spells.set("EEEE", function cast(attacker, defender, values) {
   max = 25;
   acc = 65;
   slow_chance = 20;
-  slow_duration = 2;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -956,7 +1039,7 @@ magic_spells.set("EEEE", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, slow_chance)) {
-      slow = new Slow(slow_duration);
+      slow = new Slow();
       slow.print(attacker);
       defender.status_effects_stat.push(slow);
     }
@@ -969,7 +1052,6 @@ magic_spells.set("EEEEE", function cast(attacker, defender, values) {
   max = 50;
   acc = 55;
   stun_chance = 50;
-  stun_duration = 1;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -981,7 +1063,10 @@ magic_spells.set("EEEEE", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, stun_chance)) {
-      stun = new Freeze_Stun(stun_duration);
+      stun = new Stun();
+      if (values.get("earth1") >= 2.0) {
+        stun.duration++;
+      }
       stun.print(attacker);
       defender.status_effects_start.push(stun);
     }
@@ -994,7 +1079,6 @@ magic_spells.set("EEEFF", function cast(attacker, defender, values) {
   max = 22;
   acc = 70;
   burn_chance = 30;
-  burn_duration = 3;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -1014,7 +1098,12 @@ magic_spells.set("EEEFF", function cast(attacker, defender, values) {
           1
         );
       }
-      burn = new Burn(burn_duration, Math.round(dmg * 0.1));
+      burn = new Burn(Math.round(dmg * 0.1));
+      if (values.get("fire1") >= 1.5 && values.get("fire1") < 2.0) {
+        burn.duration++;
+      } else if (values.get("fire1") >= 2.0) {
+        burn.duration += 2;
+      }
       burn.print(attacker);
       defender.status_effects_end.push(burn);
     }
@@ -1046,9 +1135,7 @@ magic_spells.set("EEEFW", function cast(attacker, defender, values) {
   acc1 = 95;
   acc2 = 85;
   stun_chance = 50;
-  stun_duration = 1;
   slow_chance = 50;
-  slow_duration = 2;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc1)) {
     dmg = magic_damage_calc(
       attacker,
@@ -1060,7 +1147,7 @@ magic_spells.set("EEEFW", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, slow_chance)) {
-      slow = new Slow(slow_duration);
+      slow = new Slow();
       slow.print(attacker);
       defender.status_effects_stat.push(slow);
     }
@@ -1078,7 +1165,10 @@ magic_spells.set("EEEFW", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, stun_chance)) {
-      stun = new Freeze_Stun(stun_duration);
+      stun = new Stun();
+      if (values.get("earth1") >= 2.0) {
+        stun.duration++;
+      }
       stun.print(attacker);
       defender.status_effects_start.push(stun);
     }
@@ -1124,7 +1214,7 @@ magic_spells.set("AEE", function cast(attacker, defender, values) {
   } else {
     spell_acc_dialogue(attacker);
   }
-  rollout = new Rollout(5);
+  rollout = new Rollout();
   rollout.print(attacker);
   attacker.unpurgeable_effects_start.push(rollout);
 });
@@ -1144,24 +1234,24 @@ magic_spells.set("AFFV", function cast(attacker, defender, values) {
     defender.hp -= dmg;
     switch (get_random_int(5)) {
       case 0:
-        slow = new Slow(3);
+        slow = new Slow();
         attacker.status_effects_stat.push(slow);
         break;
       case 1:
-        sap = new Sap(3);
+        sap = new Sap();
         attacker.status_effects_stat.push(sap);
         break;
       case 2:
-        enfeeble = new Enfeeble(3);
+        enfeeble = new Enfeeble();
         attacker.status_effects_stat.push(enfeeble);
         break;
       case 3:
-        guard_break = new Guard_Break(3);
+        guard_break = new Guard_Break();
         guard_break.print(attacker);
         attacker.status_effects_stat.push(guard_break);
         break;
       case 4:
-        blind = new Blind(3);
+        blind = new Blind();
         attacker.status_effects_stat.push(blind);
         break;
       default:
@@ -1169,23 +1259,23 @@ magic_spells.set("AFFV", function cast(attacker, defender, values) {
     }
     switch (get_random_int(5)) {
       case 0:
-        slow = new Slow(3);
+        slow = new Slow();
         attacker.status_effects_stat.push(slow);
         break;
       case 1:
-        sap = new Sap(3);
+        sap = new Sap();
         attacker.status_effects_stat.push(sap);
         break;
       case 2:
-        enfeeble = new Enfeeble(3);
+        enfeeble = new Enfeeble();
         attacker.status_effects_stat.push(enfeeble);
         break;
       case 3:
-        guard_break = new Guard_Break(3);
+        guard_break = new Guard_Break();
         attacker.status_effects_stat.push(guard_break);
         break;
       case 4:
-        blind = new Blind(3);
+        blind = new Blind();
         attacker.status_effects_stat.push(blind);
         break;
       default:
@@ -1208,7 +1298,6 @@ magic_spells.set("AWW", function cast(attacker, defender, values) {
   max = 9;
   acc = 100;
   freeze_chance = 30;
-  freeze_duration = 1;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -1220,16 +1309,18 @@ magic_spells.set("AWW", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, freeze_chance)) {
-      stun = new Freeze_Stun(freeze_duration);
-      stun.print(attacker);
-      defender.status_effects_start.push(stun);
+      freeze = new Freeze();
+      if (values.get("water1") >= 2.0) {
+        freeze.duration++;
+      }
+      freeze.print(attacker);
+      defender.status_effects_start.push(freeze);
     }
   } else {
     spell_acc_dialogue(attacker);
   }
 });
 magic_spells.set("AAWWW", function cast(attacker, defender, values) {
-  freeze_duration = 1;
   magic_damage_calc(
     attacker,
     defender,
@@ -1238,16 +1329,18 @@ magic_spells.set("AAWWW", function cast(attacker, defender, values) {
     "Deep Chill",
     values
   );
-  stun = new Freeze_Stun(freeze_duration);
-  stun.print(attacker);
-  defender.status_effects_start.push(stun);
+  freeze = new Freeze();
+  if (values.get("water1") >= 2.0) {
+    freeze.duration++;
+  }
+  freeze.print(attacker);
+  defender.status_effects_start.push(freeze);
 });
 magic_spells.set("FFW", function cast(attacker, defender, values) {
   min = 5;
   max = 10;
   acc = 85;
   blind_chance = 30;
-  blind_duration = 3;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -1259,7 +1352,7 @@ magic_spells.set("FFW", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, blind_chance)) {
-      blind = new Blind(blind_duration);
+      blind = new Blind();
       blind.print(attacker);
       defender.status_effects_stat.push(blind);
     }
@@ -1268,7 +1361,6 @@ magic_spells.set("FFW", function cast(attacker, defender, values) {
   }
 });
 magic_spells.set("AAV", function cast(attacker, defender, values) {
-  blind_duration = 3;
   magic_damage_calc(
     attacker,
     defender,
@@ -1277,7 +1369,7 @@ magic_spells.set("AAV", function cast(attacker, defender, values) {
     "Shadow Stream",
     values
   );
-  blind = new Blind(blind_duration);
+  blind = new Blind();
   blind.print(attacker);
   defender.status_effects_stat.push(blind);
 });
@@ -1286,8 +1378,7 @@ magic_spells.set("AAAEE", function cast(attacker, defender, values) {
   max = 20;
   acc = 60;
   slow_chance = 100;
-  slow_duration = 3;
-  slow = new Slow(slow_duration);
+  slow = new Slow();
   slow.print(attacker);
   defender.status_effects_stat.push(slow);
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
@@ -1301,7 +1392,7 @@ magic_spells.set("AAAEE", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, slow_chance)) {
-      slow = new Slow(slow_duration);
+      slow = new Slow();
       slow.print(attacker);
       defender.status_effects_stat.push(slow);
     }
@@ -1316,7 +1407,7 @@ magic_spells.set("FFFV", function cast(attacker, defender, values) {
       !defender.status_effects_start.filter((e) => e.name === "ghostly_wounds")
         .length > 0
     ) {
-      gw = new Ghostly_Wounds(2);
+      gw = new Ghostly_Wounds();
       gw.print(attacker);
       defender.status_effects_end.push(gw);
     }
@@ -1342,7 +1433,7 @@ magic_spells.set("EFFV", function cast(attacker, defender, values) {
       "Guard Crush",
       values
     );
-    defender.status_effects_start.push(new Guard_Crush(1, crush_dmg));
+    defender.status_effects_start.push(new Guard_Crush(crush_dmg));
   } else {
     spell_acc_dialogue(attacker);
   }
@@ -1350,22 +1441,22 @@ magic_spells.set("EFFV", function cast(attacker, defender, values) {
 magic_spells.set("AAAV", function cast(attacker, defender, values) {
   switch (get_random_int(4)) {
     case 0:
-      luck = new Lucky(3);
+      luck = new Lucky();
       luck.print(attacker);
       attacker.status_effects_start.push(luck);
       break;
     case 1:
-      misfortune = new Misfortune(3);
+      misfortune = new Misfortune();
       misfortune.print(attacker);
       attacker.status_effects_start.push(misfortune);
       break;
     case 2:
-      luck = new Lucky(3);
+      luck = new Lucky();
       luck.print(defender);
       defender.status_effects_start.push(luck);
       break;
     case 3:
-      misfortune = new Misfortune(3);
+      misfortune = new Misfortune();
       misfortune.print(defender);
       defender.status_effects_start.push(misfortune);
       break;
@@ -1375,7 +1466,7 @@ magic_spells.set("AAAV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Gamble", values);
 });
 magic_spells.set("AVVVV", function cast(attacker, defender, values) {
-  luck = new Lucky(3);
+  luck = new Lucky();
   luck.print(attacker);
   attacker.status_effects_start.push(luck);
   attacker.hp -= Math.floor(attacker.vit / 10);
@@ -1386,7 +1477,6 @@ magic_spells.set("AFF", function cast(attacker, defender, values) {
   max = 9;
   acc = 90;
   stun_chance = 75;
-  stun_duration = 1;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -1398,7 +1488,10 @@ magic_spells.set("AFF", function cast(attacker, defender, values) {
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, stun_chance)) {
-      stun = new Freeze_Stun(stun_duration);
+      stun = new Stun();
+      if (values.get("earth1") >= 2.0) {
+        stun.duration++;
+      }
       stun.print(attacker);
       defender.status_effects_start.push(stun);
     }
@@ -1572,7 +1665,7 @@ magic_spells.set("AAAFF", function cast(attacker, defender, values) {
     }
   }
   if (c >= 4) {
-    enfeeble = new Enfeeble(3);
+    enfeeble = new Enfeeble();
     enfeeble.print(attacker);
     defender.status_effects_start.push(enfeeble);
   }
@@ -1612,7 +1705,7 @@ magic_spells.set("AAFFF", function cast(attacker, defender, values) {
     }
   }
   if (c >= 4) {
-    bruised = new Bruised(3);
+    bruised = new Bruised();
     bruised.print(attacker);
     defender.status_effects_start.push(bruised);
   }
@@ -1629,49 +1722,49 @@ magic_spells.set("AAFFF", function cast(attacker, defender, values) {
 });
 magic_spells.set("AVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "A", "Aeroveil", values);
-  veil = new Aeroveil(4);
+  veil = new Aeroveil();
   veil.print(attacker);
   attacker.status_effects_start.push(veil);
 });
 magic_spells.set("EVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "E", "Gaiaveil", values);
-  veil = new Gaiaveil(4);
+  veil = new Gaiaveil();
   veil.print(attacker);
   attacker.status_effects_start.push(veil);
 });
 magic_spells.set("FVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "F", "Pyroveil", values);
-  veil = new Pyroveil(4);
+  veil = new Pyroveil();
   veil.print(attacker);
   attacker.status_effects_start.push(veil);
 });
 magic_spells.set("WVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "W", "Hydroveil", values);
-  veil = new Hydroveil(4);
+  veil = new Hydroveil();
   veil.print(attacker);
   attacker.status_effects_start.push(veil);
 });
 magic_spells.set("AAVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "A", "Aerosurge", values);
-  surge = new Aerosurge(4);
+  surge = new Aerosurge();
   surge.print(attacker);
   attacker.status_effects_start.push(surge);
 });
 magic_spells.set("EEVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "E", "Gaiasurge", values);
-  surge = new Gaiasurge(4);
+  surge = new Gaiasurge();
   surge.print(attacker);
   attacker.status_effects_start.push(surge);
 });
 magic_spells.set("FFVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "F", "Pyrosurge", values);
-  surge = new Pyrosurge(4);
+  surge = new Pyrosurge();
   surge.print(attacker);
   attacker.status_effects_start.push(surge);
 });
 magic_spells.set("WWVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "W", "Hydrosurge", values);
-  surge = new Hydrosurge(4);
+  surge = new Hydrosurge();
   surge.print(attacker);
   attacker.status_effects_start.push(surge);
 });
@@ -1695,9 +1788,14 @@ magic_spells.set("WWV", function cast(attacker, defender, values) {
   attacker.hp -= dmg;
 });
 magic_spells.set("AWV", function cast(attacker, defender, values) {
-  blessing_duration = 3;
   heal = 5;
-  bless = new Blessing(blessing_duration, heal);
+  if (values.get("water1") >= 1.5) {
+    heal = 7;
+  }
+  bless = new Blessing(heal);
+  if (values.get("air1") >= 1.5) {
+    bless.duration++;
+  }
   bless.print(attacker);
   defender.status_effects_end.push(bless);
   magic_damage_calc(
@@ -1785,7 +1883,7 @@ magic_spells.set("AVVV", function cast(attacker, defender, values) {
     attacker.unpurgeable_effects_end.filter((e) => e.name === "voids_call")
       .length == 0
   ) {
-    vc = new Voids_Call(999);
+    vc = new Voids_Call();
     vc.print(attacker);
     attacker.unpurgeable_effects_end.push(vc);
   }
@@ -1800,17 +1898,23 @@ magic_spells.set("AFV", function cast(attacker, defender, values) {
   }
   get_runes(attacker, runes_to_get, tmp);
   magic_damage_calc(attacker, defender, 0, "V", "Runic Demise", values);
-  attacker.unpurgeable_effects_end.push(new Runic_Demise(2));
+  attacker.unpurgeable_effects_end.push(new Runic_Demise());
 });
 magic_spells.set("FWV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Reverse of Arms", values);
-  roa = new Reverse_Of_Arms(999);
+  roa = new Reverse_Of_Arms();
   roa.print(attacker);
   attacker.unpurgeable_effects_start.push(roa);
 });
 magic_spells.set("EFVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Sougenmu", values);
-  clone = new Clone(4);
+  clone = new Clone();
+  if (values.get("agi1") >= 100) {
+    clone.duration++;
+  }
+  if (values.get("pow1") >= 100) {
+    clone.damage = 60;
+  }
   clone.print(attacker);
   attacker.status_effects_start.push(clone);
 });
@@ -1839,43 +1943,58 @@ magic_spells.set("AEFWV", function cast(attacker, defender, values) {
 });
 magic_spells.set("AEEV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Battle Dance", values);
-  bd = new Battle_Dance(4);
+  bd = new Battle_Dance();
   bd.print(attacker);
   attacker.unpurgeable_effects_start.push(bd);
 });
 magic_spells.set("EFV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Adrenal Surge", values);
-  ad = new Adrenaline(4);
+  ad = new Adrenaline();
+  if (values.get("pow1") >= 100) {
+    ad.duration++;
+  }
   ad.print(attacker);
   attacker.status_effects_stat.push(ad);
 });
 magic_spells.set("VVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Magical Dampener", values);
-  tmp = new Sap(4);
+  tmp = new Sap();
   tmp.print(attacker);
   defender.status_effects_stat.push(tmp);
 });
 magic_spells.set("VVVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Quiet Hour", values);
-  tmp = new Silence(4);
+  tmp = new Silence();
+  if (values.get("mag1") >= 100) {
+    tmp.duration++;
+  }
   tmp.print(attacker);
   defender.status_effects_start.push(tmp);
 });
 magic_spells.set("AAE", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "E", "Gaia Parry", values);
-  tmp = new Parry(4);
+  tmp = new Parry();
+  if (values.get("def1") >= 100) {
+    tmp.chance = 60;
+  }
   tmp.print(attacker);
   defender.status_effects_start.push(tmp);
 });
 magic_spells.set("AEEE", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "E", "Gaia Counter", values);
-  tmp = new Counter(4);
+  tmp = new Counter();
+  if (values.get("def1") >= 100) {
+    tmp.chance = 40;
+  }
+  if (values.get("pow1") >= 100) {
+    tmp.damage = 100;
+  } 
   tmp.print(attacker);
   defender.status_effects_start.push(tmp);
 });
 magic_spells.set("AEVV", function cast(attacker, defender, values) {
   magic_damage_calc(attacker, defender, 0, "V", "Hard Read", values);
-  tmp = new Keen(4);
+  tmp = new Keen();
   tmp.print(attacker);
   defender.status_effects_start.push(tmp);
 });

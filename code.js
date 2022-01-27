@@ -181,42 +181,30 @@ function update_hp() {
 
 function update() {
   monster1.name = document.getElementById("name1").value;
-  monster1.pow = parseInt(document.getElementById("pow1").value, 10);
-  monster1.def = parseInt(document.getElementById("def1").value, 10);
-  monster1.mag = parseInt(document.getElementById("mag1").value, 10);
-  monster1.agi = parseInt(document.getElementById("agi1").value, 10);
-  monster1.spd = parseInt(document.getElementById("spd1").value, 10);
-  monster1.vit = parseInt(document.getElementById("vit1").value, 10);
-  monster1.hp = parseInt(document.getElementById("vit1").value, 10);
-  monster1.air_affinity = parseInt(document.getElementById("air1").value, 10);
-  monster1.earth_affinity = parseInt(
-    document.getElementById("earth1").value,
-    10
-  );
-  monster1.fire_affinity = parseInt(document.getElementById("fire1").value, 10);
-  monster1.water_affinity = parseInt(
-    document.getElementById("water1").value,
-    10
-  );
+  (monster1.pow = document.getElementById("pow1").value), 10;
+  (monster1.def = document.getElementById("def1").value), 10;
+  (monster1.mag = document.getElementById("mag1").value), 10;
+  (monster1.agi = document.getElementById("agi1").value), 10;
+  (monster1.spd = document.getElementById("spd1").value), 10;
+  (monster1.vit = document.getElementById("vit1").value), 10;
+  (monster1.hp = document.getElementById("vit1").value), 10;
+  (monster1.air_affinity = document.getElementById("air1").value), 10;
+  (monster1.earth_affinity = document.getElementById("earth1").value), 10;
+  (monster1.fire_affinity = document.getElementById("fire1").value), 10;
+  (monster1.water_affinity = document.getElementById("water1").value), 10;
 
   monster2.name = document.getElementById("name2").value;
-  monster2.pow = parseInt(document.getElementById("pow2").value, 10);
-  monster2.def = parseInt(document.getElementById("def2").value, 10);
-  monster2.mag = parseInt(document.getElementById("mag2").value, 10);
-  monster2.agi = parseInt(document.getElementById("agi2").value, 10);
-  monster2.spd = parseInt(document.getElementById("spd2").value, 10);
-  monster2.vit = parseInt(document.getElementById("vit2").value, 10);
-  monster2.hp = parseInt(document.getElementById("vit2").value, 10);
-  monster2.air_affinity = parseInt(document.getElementById("air2").value, 10);
-  monster2.earth_affinity = parseInt(
-    document.getElementById("earth2").value,
-    10
-  );
-  monster2.fire_affinity = parseInt(document.getElementById("fire2").value, 10);
-  monster2.water_affinity = parseInt(
-    document.getElementById("water2").value,
-    10
-  );
+  (monster2.pow = document.getElementById("pow2").value), 10;
+  (monster2.def = document.getElementById("def2").value), 10;
+  (monster2.mag = document.getElementById("mag2").value), 10;
+  (monster2.agi = document.getElementById("agi2").value), 10;
+  (monster2.spd = document.getElementById("spd2").value), 10;
+  (monster2.vit = document.getElementById("vit2").value), 10;
+  (monster2.hp = document.getElementById("vit2").value), 10;
+  (monster2.air_affinity = document.getElementById("air2").value), 10;
+  (monster2.earth_affinity = document.getElementById("earth2").value), 10;
+  (monster2.fire_affinity = document.getElementById("fire2").value), 10;
+  (monster2.water_affinity = document.getElementById("water2").value), 10;
   turn = monster1.spd > monster2.spd ? true : false;
 
   document.getElementById("monster1_name").innerHTML = monster1.name;
@@ -535,13 +523,13 @@ function get_acc_check(agi1, agi2, base_acc) {
   return acc_check < acc;
 }
 
-function get_crit_check(spd1, keen1){
+function get_crit_check(spd1, keen1) {
   crit = 9 + spd1 * 0.2;
-  if(keen1) {
+  if (keen1) {
     crit += 11;
   }
   return get_random_int(100) < crit;
-} 
+}
 
 function spell_acc_dialogue(attacker) {
   var tmp = document.createElement("p");
@@ -574,28 +562,28 @@ function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
         if (values.get("aeroveil2")) {
           dmg = dmg * 0.7;
         }
-        dmg = dmg * values.get("air1") / values.get("air2");
+        dmg = (dmg * values.get("air1")) / values.get("air2");
         break;
       case "E":
         dmg = dmg * (values.get("earth1") / values.get("earth2"));
         if (values.get("gaiaveil2")) {
           dmg = dmg * 0.7;
         }
-        dmg = dmg * values.get("earth1") / values.get("earth2");
+        dmg = (dmg * values.get("earth1")) / values.get("earth2");
         break;
       case "F":
         dmg = dmg * (values.get("fire1") / values.get("fire2"));
         if (values.get("pyroveil2")) {
           dmg = dmg * 0.7;
         }
-        dmg = dmg * values.get("fire1") / values.get("fire2");
+        dmg = (dmg * values.get("fire1")) / values.get("fire2");
         break;
       case "W":
         dmg = dmg * (values.get("water1") / values.get("water2"));
         if (values.get("hydroveil2")) {
           dmg = dmg * 0.7;
         }
-        dmg = dmg * values.get("water1") / values.get("water2");
+        dmg = (dmg * values.get("water1")) / values.get("water2");
         break;
       case "V":
         break;
@@ -1005,7 +993,9 @@ function status_effects_start_calc(attacker, defender) {
   if (
     defender.unpurgeable_effects_start.filter(
       (e) => e.name === "reverse_of_arms"
-    ).length%2 == 1
+    ).length %
+      2 ==
+    1
   ) {
     tmp = tmp_pow2;
     tmp_pow2 = tmp_def2;
