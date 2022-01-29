@@ -290,36 +290,213 @@ function update_rune_count() {
 function update_status_effect() {
   str1 = "";
   str2 = "";
-  monster1.status_effects_start.forEach((e) => {
-    str1 += e.name + "(" + e.duration + ")" + ", ";
-  });
-  monster1.status_effects_stat.forEach((e) => {
-    str1 += e.name + "(" + e.duration + ")" + ", ";
-  });
-  monster1.status_effects_end.forEach((e) => {
-    str1 += e.name + "(" + e.duration + ")" + ", ";
-  });
-  monster1.unpurgeable_effects_start.forEach((e) => {
-    str1 += e.name + "(" + e.duration + ")" + ", ";
-  });
-  monster1.unpurgeable_effects_end.forEach((e) => {
-    str1 += e.name + "(" + e.duration + ")" + ", ";
-  });
-  monster2.status_effects_start.forEach((e) => {
-    str2 += e.name + "(" + e.duration + ")" + ", ";
-  });
-  monster2.status_effects_stat.forEach((e) => {
-    str2 += e.name + "(" + e.duration + ")" + ", ";
-  });
-  monster2.status_effects_end.forEach((e) => {
-    str2 += e.name + "(" + e.duration + ")" + ", ";
-  });
-  monster2.unpurgeable_effects_start.forEach((e) => {
-    str2 += e.name + "(" + e.duration + ")" + ", ";
-  });
-  monster2.unpurgeable_effects_end.forEach((e) => {
-    str2 += e.name + "(" + e.duration + ")" + ", ";
-  });
+  //status_effects_start = stun, freeze, guard crush (not shown), lucky, misfortune, veils, surges, clone, silence, parry, counter, bruised, keen
+  //status_effects_stat = slow, sap, enfeeble, guard break, blind, adrenaline
+  //status_effects_end = burn, ghostly wounds, blessing
+  //unpurgeable_effects_start = rollout (not shown), reverse of arm, battle dance
+  //unpurgeable_effects_end = void's call, runic demise (not shown)
+  if(monster1.status_effects_start.filter((e) => e.name === "stun").length > 0){
+    str1 += "stun, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "freeze").length > 0){
+    str1 += "freeze, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "lucky").length - monster1.status_effects_start.filter((e) => e.name === "misfortune").length > 0){
+    str1 += "lucky, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "lucky").length - monster1.status_effects_start.filter((e) => e.name === "misfortune").length < 0){
+    str1 += "misfortunate, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "aeroveil").length > 0){
+    str1 += "aeroveil, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "pyroveil").length > 0){
+    str1 += "pyroveil, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "gaiaveil").length > 0){
+    str1 += "gaiaveil, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "hydroveil").length > 0){
+    str1 += "hydroveil, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "aerosurge").length > 0){
+    str1 += "aerosurge, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "pyrosurge").length > 0){
+    str1 += "pyrosurge, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "gaiasurge").length > 0){
+    str1 += "gaiasurge, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "hydrosurge").length > 0){
+    str1 += "hydrosurge, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "clone").length > 0){
+    str1 += "clone, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "silence").length > 0){
+    str1 += "silence, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "parry").length > 0){
+    str1 += "parry, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "counter").length > 0){
+    str1 += "counter, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "keen").length > 0){
+    str1 += "keen, ";
+  }
+  if(monster1.status_effects_start.filter((e) => e.name === "bruised").length > 0){
+    str1 += "bruised, ";
+  }
+  if(monster1.status_effects_stat.filter((e) => e.name === "slow").length >= 2){
+    str1 += "strong slow, ";
+  } else if (monster1.status_effects_stat.filter((e) => e.name === "slow").length >= 2){
+    str1 += "slow, ";
+  }
+  if(monster1.status_effects_stat.filter((e) => e.name === "enfeeble").length >= 2){
+    str1 += "strong enfeeble, ";
+  } else if (monster1.status_effects_stat.filter((e) => e.name === "enfeeble").length >= 2){
+    str1 += "enfeeble, ";
+  }
+  if(monster1.status_effects_stat.filter((e) => e.name === "sap").length >= 2){
+    str1 += "strong sap, ";
+  } else if (monster1.status_effects_stat.filter((e) => e.name === "sap").length >= 2){
+    str1 += "sap, ";
+  }
+  if(monster1.status_effects_stat.filter((e) => e.name === "guard_break").length >= 2){
+    str1 += "strong guard break, ";
+  } else if (monster1.status_effects_stat.filter((e) => e.name === "guard_break").length >= 2){
+    str1 += "guard break, ";
+  }
+  if(monster1.status_effects_stat.filter((e) => e.name === "blind").length >= 2){
+    str1 += "strong blind, ";
+  } else if (monster1.status_effects_stat.filter((e) => e.name === "blind").length >= 2){
+    str1 += "blind, ";
+  }
+  if(monster1.status_effects_stat.filter((e) => e.name === "adrenaline").length > 0){
+    str1 += "adrenaline, ";
+  }
+  if(monster1.status_effects_end.filter((e) => e.name === "burn").length > 0){
+    str1 += "burn, ";
+  }
+  if(monster1.status_effects_end.filter((e) => e.name === "ghostly_wounds").length > 0){
+    str1 += "ghostly wounds, ";
+  }
+  if(monster1.status_effects_end.filter((e) => e.name === "blessing").length > 0){
+    str1 += "blessing, ";
+  }
+  if(monster1.unpurgeable_effects_start.filter((e) => e.name === "reverse_of_arms").length > 0){
+    str1 += "reverse of arms, ";
+  }
+  if(monster1.unpurgeable_effects_start.filter((e) => e.name === "battle_dance").length > 0){
+    str1 += "battle dance, ";
+  }
+  if(monster1.unpurgeable_effects_end.filter((e) => e.name === "voids_call").length > 0){
+    str1 += "voids call, ";
+  }
+  
+  if(monster2.status_effects_start.filter((e) => e.name === "stun").length > 0){
+    str2 += "stun, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "freeze").length > 0){
+    str2 += "freeze, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "lucky").length - monster2.status_effects_start.filter((e) => e.name === "misfortune").length > 0){
+    str2 += "lucky, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "lucky").length - monster2.status_effects_start.filter((e) => e.name === "misfortune").length < 0){
+    str2 += "misfortunate, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "aeroveil").length > 0){
+    str2 += "aeroveil, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "pyroveil").length > 0){
+    str2 += "pyroveil, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "gaiaveil").length > 0){
+    str2 += "gaiaveil, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "hydroveil").length > 0){
+    str2 += "hydroveil, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "aerosurge").length > 0){
+    str2 += "aerosurge, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "pyrosurge").length > 0){
+    str2 += "pyrosurge, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "gaiasurge").length > 0){
+    str2 += "gaiasurge, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "hydrosurge").length > 0){
+    str2 += "hydrosurge, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "clone").length > 0){
+    str2 += "clone, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "silence").length > 0){
+    str2 += "silence, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "parry").length > 0){
+    str2 += "parry, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "counter").length > 0){
+    str2 += "counter, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "keen").length > 0){
+    str2 += "keen, ";
+  }
+  if(monster2.status_effects_start.filter((e) => e.name === "bruised").length > 0){
+    str2 += "bruised, ";
+  }
+  if(monster2.status_effects_stat.filter((e) => e.name === "slow").length >= 2){
+    str2 += "strong slow, ";
+  } else if (monster2.status_effects_stat.filter((e) => e.name === "slow").length >= 2){
+    str2 += "slow, ";
+  }
+  if(monster2.status_effects_stat.filter((e) => e.name === "enfeeble").length >= 2){
+    str2 += "strong enfeeble, ";
+  } else if (monster2.status_effects_stat.filter((e) => e.name === "enfeeble").length >= 2){
+    str2 += "enfeeble, ";
+  }
+  if(monster2.status_effects_stat.filter((e) => e.name === "sap").length >= 2){
+    str2 += "strong sap, ";
+  } else if (monster2.status_effects_stat.filter((e) => e.name === "sap").length >= 2){
+    str2 += "sap, ";
+  }
+  if(monster2.status_effects_stat.filter((e) => e.name === "guard_break").length >= 2){
+    str2 += "strong guard break, ";
+  } else if (monster2.status_effects_stat.filter((e) => e.name === "guard_break").length >= 2){
+    str2 += "guard break, ";
+  }
+  if(monster2.status_effects_stat.filter((e) => e.name === "blind").length >= 2){
+    str2 += "strong blind, ";
+  } else if (monster2.status_effects_stat.filter((e) => e.name === "blind").length >= 2){
+    str2 += "blind, ";
+  }
+  if(monster2.status_effects_stat.filter((e) => e.name === "adrenaline").length > 0){
+    str2 += "adrenaline, ";
+  }
+  if(monster2.status_effects_end.filter((e) => e.name === "burn").length > 0){
+    str2 += "burn, ";
+  }
+  if(monster2.status_effects_end.filter((e) => e.name === "ghostly_wounds").length > 0){
+    str2 += "ghostly wounds, ";
+  }
+  if(monster2.status_effects_end.filter((e) => e.name === "blessing").length > 0){
+    str2 += "blessing, ";
+  }
+  if(monster2.unpurgeable_effects_start.filter((e) => e.name === "reverse_of_arms").length > 0){
+    str2 += "reverse of arms, ";
+  }
+  if(monster2.unpurgeable_effects_start.filter((e) => e.name === "battle_dance").length > 0){
+    str2 += "battle dance, ";
+  }
+  if(monster1.unpurgeable_effects_end.filter((e) => e.name === "voids_call").length > 0){
+    str2 += "voids call, ";
+  }
+
   status_effect1.innerHTML = str1.substring(0, str1.length - 2);
   status_effect2.innerHTML = str2.substring(0, str2.length - 2);
 }
@@ -542,8 +719,27 @@ function spell_acc_dialogue(attacker) {
   output.appendChild(tmp);
 }
 
-function magic_damage_calc(attacker, defender, dmg, type, spell_name, values) {
+function magic_damage_calc(attacker, defender, min_dmg, max_dmg, type, spell_name, values) {
   var tmp = document.createElement("p");
+  dmg = get_random_range(min_dmg, max_dmg);
+  luck = values.get("luck1") - values.get("luck2");
+  if(luck >= 0){
+    for (i = 1; i < luck; i++) {
+      base_dmg = get_random_range(dmg_min, dmg_max);
+      dmg = Math.max(
+        dmg,
+        Math.round((base_dmg * values.get("mag1")) / values.get("mag2"))
+      );
+    }
+  } else {
+    for (i = 1; i < Math.abs(luck); i++) {
+      base_dmg = get_random_range(dmg_min, dmg_max);
+      dmg = Math.min(
+        dmg,
+        Math.round((base_dmg * values.get("mag1")) / values.get("mag2"))
+      );
+    }
+  }
   if (turn) {
     tmp.style.color = "green";
   } else {

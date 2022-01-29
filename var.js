@@ -556,7 +556,6 @@ class Voids_Call extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Reverse_Of_Arms extends Status_Effect {
   name = "reverse_of_arms";
   purgeable = false;
@@ -577,7 +576,6 @@ class Reverse_Of_Arms extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Rollout extends Status_Effect {
   name = "rollout";
   purgeable = false;
@@ -595,7 +593,6 @@ class Rollout extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Ghostly_Wounds extends Status_Effect {
   name = "ghostly_wounds";
   constructor() {
@@ -612,7 +609,6 @@ class Ghostly_Wounds extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Guard_Crush extends Status_Effect {
   name = "guard_crush";
   constructor(damage) {
@@ -622,7 +618,7 @@ class Guard_Crush extends Status_Effect {
   use(x) {
     super.use(x);
     x.hp -= this.damage;
-    x.status_effects_stat.push(new Guard_Break(3));
+    x.status_effects_stat.push(new Guard_Break());
     var tmp = document.createElement("p");
     if (turn) {
       tmp.style.color = "green";
@@ -633,7 +629,6 @@ class Guard_Crush extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Aeroveil extends Status_Effect {
   name = "aeroveil";
   constructor() {
@@ -650,7 +645,6 @@ class Aeroveil extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Gaiaveil extends Status_Effect {
   name = "gaiaveil";
   constructor() {
@@ -667,7 +661,6 @@ class Gaiaveil extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Pyroveil extends Status_Effect {
   name = "pyroveil";
   constructor() {
@@ -684,7 +677,6 @@ class Pyroveil extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Hydroveil extends Status_Effect {
   name = "hydroveil";
   constructor() {
@@ -701,7 +693,6 @@ class Hydroveil extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Aerosurge extends Status_Effect {
   name = "aerosurge";
   constructor() {
@@ -718,7 +709,6 @@ class Aerosurge extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Gaiasurge extends Status_Effect {
   name = "gaiasurge";
   constructor() {
@@ -735,7 +725,6 @@ class Gaiasurge extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Pyrosurge extends Status_Effect {
   name = "pyrosurge";
   constructor() {
@@ -752,7 +741,6 @@ class Pyrosurge extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Hydrosurge extends Status_Effect {
   name = "hydrosurge";
   constructor() {
@@ -769,7 +757,6 @@ class Hydrosurge extends Status_Effect {
     output.appendChild(tmp);
   }
 }
-
 class Runic_Demise extends Status_Effect {
   name = "runic_demise";
   constructor() {
@@ -787,7 +774,6 @@ class Runic_Demise extends Status_Effect {
     }
   }
 }
-
 //F=fire, E=earth, A=air, W=water, V=void
 //list of spells and what they do
 magic_spells = new Map();
@@ -799,7 +785,7 @@ magic_spells.set("FFF", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "F",
       "Fireball",
       values
@@ -818,21 +804,13 @@ magic_spells.set("FFFF", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "F",
       "Fireblast",
       values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, burn_chance)) {
-      if (
-        defender.status_effects_end.filter((e) => e.name === "burn").length > 0
-      ) {
-        defender.status_effects_end.splice(
-          defender.status_effects_end.findIndex((e) => e.name === "burn"),
-          1
-        );
-      }
       burn = new Burn(Math.round(dmg * 0.1));
       if (values.get("fire1") >= 1.5 && values.get("fire1") < 2.0) {
         burn.duration++;
@@ -840,6 +818,14 @@ magic_spells.set("FFFF", function cast(attacker, defender, values) {
         burn.duration += 2;
       }
       burn.print(attacker);
+      if (
+        defender.status_effects_end.filter((e) => e.name === "burn").length > 0 && defender.status_effects_end.filter((e) => e.name === "burn")[0].duration < burn.duration
+      ) {
+        defender.status_effects_end.splice(
+          defender.status_effects_end.findIndex((e) => e.name === "burn"),
+          1
+        );
+      }
       defender.status_effects_end.push(burn);
     }
   } else {
@@ -855,29 +841,29 @@ magic_spells.set("FFFFF", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "F",
       "Firestorm",
       values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, burn_chance)) {
+      burn = new Burn(Math.round(dmg * 0.1));
+      burn.duration++;
+      if (values.get("fire1") >= 1.5 && values.get("fire1") < 2.0) {
+        burn.duration++;
+      } else if (values.get("fire1") == 2.0) {
+        burn.duration += 2;
+      }
+      burn.print(attacker);
       if (
-        defender.status_effects_end.filter((e) => e.name === "burn").length > 0
+        defender.status_effects_end.filter((e) => e.name === "burn").length > 0 && defender.status_effects_end.filter((e) => e.name === "burn")[0].duration < burn.duration
       ) {
         defender.status_effects_end.splice(
           defender.status_effects_end.findIndex((e) => e.name === "burn"),
           1
         );
       }
-      burn = new Burn(Math.round(dmg * 0.1));
-      burn.duration++;
-      if (values.get("fire1") >= 1.5 && values.get("fire1") < 2.0) {
-        burn.duration++;
-      } else if (values.get("fire1") >= 2.0) {
-        burn.duration += 2;
-      }
-      burn.print(attacker);
       defender.status_effects_end.push(burn);
     }
   } else {
@@ -892,7 +878,7 @@ magic_spells.set("WWW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "W",
       "Waterball",
       values
@@ -910,7 +896,7 @@ magic_spells.set("WWWW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "W",
       "Waterwhip",
       values
@@ -928,7 +914,7 @@ magic_spells.set("WWWWW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "W",
       "Waterburst",
       values
@@ -946,7 +932,7 @@ magic_spells.set("AAA", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "A",
       "Airshot",
       values
@@ -964,7 +950,7 @@ magic_spells.set("AAAA", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "A",
       "Airstinger",
       values
@@ -985,7 +971,7 @@ magic_spells.set("AAAAA", function cast(attacker, defender, values) {
       dmg = magic_damage_calc(
         attacker,
         defender,
-        get_random_range(min, max),
+        min, max,
         "A",
         "Tornade",
         values
@@ -1013,7 +999,7 @@ magic_spells.set("EEE", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "E",
       "Gaia Strike",
       values
@@ -1032,7 +1018,7 @@ magic_spells.set("EEEE", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "E",
       "Gaia Edge",
       values
@@ -1056,7 +1042,7 @@ magic_spells.set("EEEEE", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "E",
       "Gaia Assault",
       values
@@ -1083,28 +1069,28 @@ magic_spells.set("EEEFF", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "E",
       "Eruption",
       values
     );
     defender.hp -= dmg;
     if (get_acc_check(0, 0, burn_chance)) {
+      burn = new Burn(Math.round(dmg * 0.1));
+      if (values.get("fire1") >= 1.5 && values.get("fire1") < 2.0) {
+        burn.duration++;
+      } else if (values.get("fire1") == 2.0) {
+        burn.duration += 2;
+      }
+      burn.print(attacker);
       if (
-        defender.status_effects_end.filter((e) => e.name === "burn").length > 0
+        defender.status_effects_end.filter((e) => e.name === "burn").length > 0 && defender.status_effects_end.filter((e) => e.name === "burn")[0].duration < burn.duration
       ) {
         defender.status_effects_end.splice(
           defender.status_effects_end.findIndex((e) => e.name === "burn"),
           1
         );
       }
-      burn = new Burn(Math.round(dmg * 0.1));
-      if (values.get("fire1") >= 1.5 && values.get("fire1") < 2.0) {
-        burn.duration++;
-      } else if (values.get("fire1") >= 2.0) {
-        burn.duration += 2;
-      }
-      burn.print(attacker);
       defender.status_effects_end.push(burn);
     }
   } else {
@@ -1119,7 +1105,7 @@ magic_spells.set("FFVVV", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min + attacker.stress, max + attacker.stress),
+      min + attacker.stress, max + attacker.stress,
       "V",
       "Cartharsis",
       values
@@ -1140,7 +1126,7 @@ magic_spells.set("EEEFW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "E",
       "Fault Line",
       values
@@ -1158,7 +1144,7 @@ magic_spells.set("EEEFW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "E",
       "Fault Line",
       values
@@ -1184,7 +1170,7 @@ magic_spells.set("FVVVV", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "V",
       "Eldritch Blast",
       values
@@ -1205,7 +1191,7 @@ magic_spells.set("AEE", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min * multiplier, max * multiplier),
+      min * multiplier, max * multiplier,
       "E",
       "Rock Roll",
       values
@@ -1226,7 +1212,7 @@ magic_spells.set("AFFV", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "F",
       "Reckless Inferno",
       values
@@ -1302,7 +1288,7 @@ magic_spells.set("AWW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "W",
       "Chill",
       values
@@ -1324,7 +1310,7 @@ magic_spells.set("AAWWW", function cast(attacker, defender, values) {
   magic_damage_calc(
     attacker,
     defender,
-    get_random_range(0, 0),
+    0, 0,
     "W",
     "Deep Chill",
     values
@@ -1345,7 +1331,7 @@ magic_spells.set("FFW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "W",
       "Steam",
       values
@@ -1364,7 +1350,7 @@ magic_spells.set("AAV", function cast(attacker, defender, values) {
   magic_damage_calc(
     attacker,
     defender,
-    get_random_range(0, 0),
+    0, 0,
     "A",
     "Shadow Stream",
     values
@@ -1385,7 +1371,7 @@ magic_spells.set("AAAEE", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "A",
       "Sandstorm",
       values
@@ -1404,7 +1390,7 @@ magic_spells.set("FFFV", function cast(attacker, defender, values) {
   acc = 85;
   if (get_acc_check(0, 0, acc)) {
     if (
-      !defender.status_effects_start.filter((e) => e.name === "ghostly_wounds")
+      !defender.status_effects_end.filter((e) => e.name === "ghostly_wounds")
         .length > 0
     ) {
       gw = new Ghostly_Wounds();
@@ -1415,7 +1401,7 @@ magic_spells.set("FFFV", function cast(attacker, defender, values) {
   magic_damage_calc(
     attacker,
     defender,
-    get_random_range(0, 0),
+    0, 0,
     "F",
     "Ghostly Embers",
     values
@@ -1428,7 +1414,7 @@ magic_spells.set("EFFV", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(0, 0),
+      0, 0,
       "V",
       "Guard Crush",
       values
@@ -1481,7 +1467,7 @@ magic_spells.set("AFF", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "A",
       "Shock",
       values
@@ -1508,7 +1494,7 @@ magic_spells.set("AEFW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "A",
       "4 Star Barrage",
       values
@@ -1522,7 +1508,7 @@ magic_spells.set("AEFW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "E",
       "4 Star Barrage",
       values
@@ -1536,7 +1522,7 @@ magic_spells.set("AEFW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "F",
       "4 Star Barrage",
       values
@@ -1550,7 +1536,7 @@ magic_spells.set("AEFW", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "W",
       "4 Star Barrage",
       values
@@ -1582,7 +1568,7 @@ magic_spells.set("AAFV", function cast(attacker, defender, values) {
       dmg = magic_damage_calc(
         attacker,
         defender,
-        get_random_range(min, max),
+        min, max,
         "V",
         "Magic Missile",
         values
@@ -1611,14 +1597,14 @@ magic_spells.set("AAAWW", function cast(attacker, defender, values) {
   total_dmg = 0;
   for (
     i = 0;
-    i < get_random_range(multi_hit_range_min, multi_hit_range_max);
+    i < multi_hit_range_min, multi_hit_range_max;
     i++
   ) {
     if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
       dmg = magic_damage_calc(
         attacker,
         defender,
-        get_random_range(min, max),
+        min, max,
         "W",
         "Cyclone",
         values
@@ -1652,7 +1638,7 @@ magic_spells.set("AAAFF", function cast(attacker, defender, values) {
       dmg = magic_damage_calc(
         attacker,
         defender,
-        get_random_range(min, max),
+        min, max,
         "A",
         "Overwhelm",
         values
@@ -1667,7 +1653,7 @@ magic_spells.set("AAAFF", function cast(attacker, defender, values) {
   if (c >= 4) {
     enfeeble = new Enfeeble();
     enfeeble.print(attacker);
-    defender.status_effects_start.push(enfeeble);
+    defender.status_effects_stat.push(enfeeble);
   }
   if (total_dmg > 0) {
     var tmp = document.createElement("p");
@@ -1692,7 +1678,7 @@ magic_spells.set("AAFFF", function cast(attacker, defender, values) {
       dmg = magic_damage_calc(
         attacker,
         defender,
-        get_random_range(min, max),
+        min, max,
         "F",
         "Brutal Strike",
         values
@@ -1780,7 +1766,7 @@ magic_spells.set("WWV", function cast(attacker, defender, values) {
   dmg = magic_damage_calc(
     attacker,
     defender,
-    get_random_range(min, max) * -1,
+    min, max * -1,
     "W",
     "Healing Water",
     values
@@ -1826,7 +1812,7 @@ magic_spells.set("AWVV", function cast(attacker, defender, values) {
   min = 10;
   max = 15;
   acc = 65;
-  amount = get_random_range(min, max);
+  amount = min, max;
   if (get_acc_check(values.get("agi1"), values.get("agi2"), acc)) {
     dmg = magic_damage_calc(
       attacker,
@@ -1864,7 +1850,7 @@ magic_spells.set("FFFFV", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "F",
       "Cleansing Fire",
       values
@@ -2006,7 +1992,7 @@ magic_spells.set("AEVV", function cast(attacker, defender, values) {
     dmg = magic_damage_calc(
       attacker,
       defender,
-      get_random_range(min, max),
+      min, max,
       "A",
       "Airstinger"
     );

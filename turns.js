@@ -10,8 +10,7 @@ function attack_helper(attacker, defender) {
 
   acc_bool = false; //for lucky testing tbd
   luck = values.get("luck1") - values.get("luck2");
-
-  for (i = 0; i < luck + 1; i++) {
+  for (i = 1; i < luck; i++) {
     acc_bool =
       acc_bool ||
       get_acc_check(values.get("agi1"), values.get("agi2"), base_acc);
@@ -46,6 +45,9 @@ function attack_helper(attacker, defender) {
           tmp.style.color = "blue";
         }
         tmp.innerHTML = attacker.name + "'s attack was parried<br>";
+        if(values.get("air2") >= 2.0){
+          get_runes(defender, 1, tmp);
+        }
         output.appendChild(tmp);
         status_effects_end_calc(attacker, defender);
         return;
@@ -54,15 +56,26 @@ function attack_helper(attacker, defender) {
 
     base_dmg = get_random_range(dmg_min, dmg_max);
     dmg = Math.round((base_dmg * values.get("pow1")) / values.get("def2"));
-    for (i = 0; i < luck; i++) {
-      base_dmg = get_random_range(dmg_min, dmg_max);
-      dmg = Math.max(
-        dmg,
-        Math.round((base_dmg * values.get("pow1")) / values.get("def2"))
-      );
+    if (luck >= 0) {
+      for (i = 1; i < luck; i++) {
+        base_dmg = get_random_range(dmg_min, dmg_max);
+        dmg = Math.max(
+          dmg,
+          Math.round((base_dmg * values.get("pow1")) / values.get("def2"))
+        );
+      }
+    } else {
+      for (i = 1; i < Math.abs(luck); i++) {
+        base_dmg = get_random_range(dmg_min, dmg_max);
+        dmg = Math.min(
+          dmg,
+          Math.round((base_dmg * values.get("pow1")) / values.get("def2"))
+        );
+      }
     }
-    if(crit){
-      dmg *= 2;
+    if (crit) {
+      dmg *= 1.5;
+      dmg = Math.round(dmg);
     }
 
     if (values.get("counter2")) {
@@ -73,12 +86,18 @@ function attack_helper(attacker, defender) {
         } else {
           tmp.style.color = "blue";
         }
-        if(crit){
+        if (crit) {
           tmp.innerHTML =
-            attacker.name + "'s attack was critically countered for " + dmg + " dmg<br>";
+            attacker.name +
+            "'s attack was critically countered for " +
+            dmg +
+            " dmg<br>";
         } else {
           tmp.innerHTML =
             attacker.name + "'s attack was countered for " + dmg + " dmg<br>";
+        }
+        if(values.get("air2") >= 2.0){
+          get_runes(defender, 1, tmp);
         }
         output.appendChild(tmp);
         attacker.hp -= dmg;
@@ -100,9 +119,8 @@ function attack_helper(attacker, defender) {
     } else {
       tmp.style.color = "blue";
     }
-    if(crit){
-      tmp_text =
-        attacker.name + " critically hits for " + dmg + " dmg<br>";
+    if (crit) {
+      tmp_text = attacker.name + " critically hits for " + dmg + " dmg<br>";
     } else {
       tmp_text = attacker.name + " hits for " + dmg + " dmg<br>";
     }
