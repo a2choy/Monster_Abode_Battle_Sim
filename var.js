@@ -25,7 +25,6 @@ class Monster {
     this.stress = 10;
   }
 }
-
 class Status_Effect {
   constructor(duration) {
     this.name = "default";
