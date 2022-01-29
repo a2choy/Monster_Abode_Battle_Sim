@@ -45,7 +45,7 @@ function attack_helper(attacker, defender) {
           tmp.style.color = "blue";
         }
         tmp.innerHTML = attacker.name + "'s attack was parried<br>";
-        if(values.get("air2") >= 2.0){
+        if (values.get("air2") >= 2.0) {
           get_runes(defender, 1, tmp);
         }
         output.appendChild(tmp);
@@ -74,7 +74,11 @@ function attack_helper(attacker, defender) {
       }
     }
     if (crit) {
-      dmg *= 1.5;
+      if (values.get("bruised2")) {
+        dmg *= 2.0;
+      } else {
+        dmg *= 1.5;
+      }
       dmg = Math.round(dmg);
     }
 
@@ -96,7 +100,7 @@ function attack_helper(attacker, defender) {
           tmp.innerHTML =
             attacker.name + "'s attack was countered for " + dmg + " dmg<br>";
         }
-        if(values.get("air2") >= 2.0){
+        if (values.get("air2") >= 2.0) {
           get_runes(defender, 1, tmp);
         }
         output.appendChild(tmp);
